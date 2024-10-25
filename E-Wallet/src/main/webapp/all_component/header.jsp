@@ -26,13 +26,13 @@
     <a href="home.html" class="logo"> <i class="fas fa-shopping-basket"></i> E-WALLET </a>
 
     <nav class="navbar">
-        <a href="home.html">Trang chủ</a>
-        <a href="shop.html">Chuyển tiền</a>
-        <a href="about.html">Rút tiền</a>
-        <a href="review.html">Nạp tiền</a>
-        <a href="blog.html">Lịch sử giao dịch</a>
+        <a href="index.jsp">Trang chủ</a>
+        <a href="transfer.jsp">Chuyển tiền</a>
+        <a href="withdraw.jsp">Rút tiền</a>
+        <a href="deposit.jsp">Nạp tiền</a>
+        <a href="history.jsp">Lịch sử giao dịch</a>
         <a href="contact.html">Đầu tư</a>
-        <a href="contact.html">Đổi mật khẩu</a>
+        <a href="changepassword.jsp">Đổi mật khẩu</a>
     </nav>
 
     <div class="icons">

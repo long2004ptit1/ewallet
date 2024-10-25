@@ -135,6 +135,9 @@
         .history-table th {
             background-color: #f2f2f2;
         }
+        h1{
+        text-align:center;
+        padding: 20px;}
     </style>
 </head>
 

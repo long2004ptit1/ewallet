@@ -21,16 +21,16 @@
 
 <header class="header">
 
-    <a href="home.html" class="logo"> <i class="fas fa-shopping-basket"></i> E-WALLET </a>
+    <a href="index.jsp" class="logo"> <i class="fas fa-shopping-basket"></i> E-WALLET </a>
 
     <nav class="navbar">
-        <a href="home.html">Trang chủ</a>
-        <a href="shop.html">Chuyển tiền</a>
-        <a href="about.html">Rút tiền</a>
-        <a href="review.html">Nạp tiền</a>
-        <a href="blog.html">Lịch sử giao dịch</a>
+        <a href="index.jsp">Trang chủ</a>
+        <a href="transfer.jsp">Chuyển tiền</a>
+        <a href="withdraw.jsp">Rút tiền</a>
+        <a href="deposit.jsp">Nạp tiền</a>
+        <a href="history.jsp">Lịch sử giao dịch</a>
         <a href="contact.html">Đầu tư</a>
-        <a href="contact.html">Đổi mật khẩu</a>
+        <a href="changepassword.jsp">Đổi mật khẩu</a>
     </nav>
 
     <div class="icons">
@@ -47,16 +47,16 @@
  
 
     <form action="login" class="login-form" method="post">
-        <h3>login form</h3>
-        <input type="email" placeholder="enter your email" class="box" required>
-        <input type="password" placeholder="enter your password" class="box" required>
+        <h3>Đăng nhập</h3>
+        <input type="email" placeholder="Nhập tên đăng nhập " class="box" required>
+        <input type="password" placeholder="Nhập mật khẩu" class="box" required>
         <div class="remember">
             <input type="checkbox" name="" id="remember-me">
-            <label for="remember-me">remember me</label>
+            <label for="remember-me">Nhớ mật khẩu</label>
         </div>
-        <input type="submit" value="login now" class="btn">
-        <p>forget password? <a href="forgetpassword.jsp">click here</a></p>
-        <p>don't have an account? <a href="register.jsp">create one</a></p>
+        <input type="submit" value="Đăng nhập" class="btn">
+        <p>Quên mật khẩu? <a href="forgetpassword.jsp">Lấy lại</a></p>
+        <p>Bạn chưa có tài khoản? <a href="register.jsp">Đăng ký</a></p>
     </form>
 
 </header>
