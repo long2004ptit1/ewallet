@@ -149,7 +149,7 @@
     </div>
 
     <div class="container">
-        <h1>Tạo yêu cầu nạp quỹ</h1>
+        <h1>Tạo yêu cầu nạp tiền</h1>
         <div class="deposit-form">
             <div class="form-left">
                 <p>Số dư quỹ: <span style="color: green;">0 VND</span></p>

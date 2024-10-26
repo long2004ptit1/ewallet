@@ -144,14 +144,15 @@ h2 {
 	</div>
 
 	<div class="container">
+		
 		<h1>Chuyển tiền</h1>
 		<div class="transfer-form">
 			<div class="form-left">
+			<form action="transfer" method="post">
 				<label for="account">Chọn quỹ</label> <select id="account">
 					<option value="vnd">Tài khoản quỹ VND - 0đ</option>
-				</select> <label for="receiver">Tài khoản nhận</label> <input type="text"
-					id="receiver"
-					placeholder="Nhập email hoặc số điện thoại hoặc username">
+				</select> <label for="receiver">Tài khoản nhận</label> 
+				<input type="text" id="receiver" placeholder="Nhập email hoặc số điện thoại hoặc username">
 
 				<label for="receiver-name">Tên người nhận</label> <input type="text"
 					id="receiver-name" disabled> <label for="amount">Số
@@ -160,6 +161,7 @@ h2 {
 				<textarea id="message" rows="3" placeholder="Nội dung chuyển"></textarea>
 
 				<button type="submit">Chuyển tiền</button>
+				</form>
 			</div>
 
 			<div class="form-right">

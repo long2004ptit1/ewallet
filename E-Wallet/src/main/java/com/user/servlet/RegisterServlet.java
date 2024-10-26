@@ -21,15 +21,17 @@ public class RegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			String name = req.getParameter("name");
+			String userName = req.getParameter("username");
 			String email = req.getParameter("email");
-			String phno = req.getParameter("phno");
+			String phone = req.getParameter("phone");
 			String password = req.getParameter("password");
 			String checkBox = req.getParameter("checkBox");
 			// System.out.println(name+" "+email+" "+phno+" "+password+" "+checkBox+" ");
 			User us = new User();
 			us.setName(name);
+			us.setUserName(userName);
 			us.setEmail(email);
-			us.setPhno(phno);
+			us.setPhone(phone);
 			us.setPassword(password);
 
 			HttpSession session = req.getSession();
@@ -39,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 				if (f) {
 					// System.out.println("User Register Success...");
 					session.setAttribute("succMsg", "Registration successfully...");
-					resp.sendRedirect("register.jsp");
+					resp.sendRedirect("index.jsp");
 				} else {
 					// System.out.println("Something wrong on server...");
 					session.setAttribute("failMsg", "Something wrong on server...");

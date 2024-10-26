@@ -34,7 +34,6 @@
     </nav>
 
     <div class="icons">
-        <div id="menu-btn" class="fas fa-bars"></div>
         <div id="search-btn" class="fas fa-search"></div>
         <div id="login-btn" class="fas fa-user"></div>
     </div>
@@ -48,8 +47,8 @@
 
     <form action="login" class="login-form" method="post">
         <h3>Đăng nhập</h3>
-        <input type="email" placeholder="Nhập tên đăng nhập " class="box" required>
-        <input type="password" placeholder="Nhập mật khẩu" class="box" required>
+        <input type="email" placeholder="Nhập tên đăng nhập " class="box" required name="email">
+        <input type="password" placeholder="Nhập mật khẩu" class="box" required name="password">
         <div class="remember">
             <input type="checkbox" name="" id="remember-me">
             <label for="remember-me">Nhớ mật khẩu</label>

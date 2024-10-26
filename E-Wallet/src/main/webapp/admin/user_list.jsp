@@ -1,3 +1,7 @@
+<%@page import="com.entity.User"%>
+<%@page import="java.util.List"%>
+<%@page import="com.DB.DBConnect"%>
+<%@page import="com.DAO.UserDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -41,9 +45,11 @@
 			<table>
 			<thead>
 				<tr>
+				<th>Id</th>
 					<th>Tên đăng nhập</th>
 					<th>Họ tên</th>
 					<th>Email</th>
+					<th>Số điện thoại</th>
 					<th>Mật khẩu</th>
 					<th>Số dư</th>
 					<th>Mô tả</th>
@@ -51,15 +57,28 @@
 				</thead>
 				<tbody>
 				<tr>
-				                    <td>long2004ptit</td>
-                    <td>Vũ Thành Long</td>
-
-                    <td>long2004ptit@gmail.com</td>
-                    <td>22022004</td>
-                    <td>100,000đ</td>
-					<td><a href="" class="btn btn-sm btn-primary">Chỉnh sửa</a> <a
+				       <%
+			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
+			List<User> list = dao.getAllUsers();
+			for (User user : list) {
+		%>
+		<tr>
+			<td><%=user.getId()%></td>
+			<td><%=user.getName()%></td>
+			<td><%=user.getUserName()%></td>
+			<td><%=user.getEmail()%></td>
+			<td><%=user.getPhone()%></td>
+			<td><%=user.getPassword()%></td>
+			<td><%= user.getBalance() %></td>
+			<td><a href="" class="btn btn-sm btn-primary">Chỉnh sửa</a> <a
 				href="#" class="btn btn-sm btn-danger">Xóa</a></td>
-                </tr>
+
+
+		</tr>
+		<%
+			}
+		%>             
+					
 				</tbody>
 				<!-- Add history rows here -->
 			</table>

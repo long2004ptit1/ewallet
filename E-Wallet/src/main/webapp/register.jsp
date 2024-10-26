@@ -30,6 +30,8 @@ form {
     width: 100%;
     max-width: 400px;
     font-size: 18px; /* Tăng cỡ chữ */
+    margin-top:100px;
+
 }
 
 input[type="text"],
@@ -43,6 +45,7 @@ input[type="number"] {
     border-radius: 5px;
     font-size: 16px; /* Tăng cỡ chữ */
     display: block;
+    text-transform: none;
 }
 
 .form-check-label {
@@ -75,14 +78,24 @@ select:focus {
 
 /* Add space for header */
 .header-space {
-	height: 80px;
+	height: 70px;
 	background-color: #f1f1f1;
 	text-align: center;
 	line-height: 50px;
 	font-size: 24px;
 	font-weight: bold;
 	margin-bottom: 20px;
+
+
 }
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
 </style>
 </head>
 <body>
@@ -90,7 +103,13 @@ select:focus {
 	<div class="header-space">
 		<%@include file="all_component/header.jsp"%>
 	</div>
+
 <form action="register" method="post">
+	<h1> Đăng ký</h1>
+						<div class="form-group">
+								<label>Họ tên*</label> <input type="text" name="name" required
+									class="form-control" >
+									</div>
 							<div class="form-group">
 								<label>Tên đăng nhập *</label> <input type="text" name="username" required
 									class="form-control" >
