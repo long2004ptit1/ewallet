@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet{
 			UserDAOImpl dao=new UserDAOImpl(DBConnect.getConn());
 			
 			HttpSession session=req.getSession();
+			session.removeAttribute("userobj");//xóa thông tin người dùng cũ
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
 			
@@ -33,17 +34,17 @@ public class LoginServlet extends HttpServlet{
 				User us=dao.login(email, password);
 				if (us!=null) {
 					session.setAttribute("userobj",us);
-					resp.sendRedirect("transfer.jsp");
+					session.setAttribute("user_id", us.getId());
+					resp.sendRedirect("home.jsp");
 				}
 				else {
-					session.setAttribute("failMsg","Email and Password Invalid");
+					session.setAttribute("failMsg","Tên đăng nhập hoặc mật khẩu không chính xác");
 					resp.sendRedirect("index.jsp");
 				}
-				resp.sendRedirect("index.jsp");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-}
 
+}

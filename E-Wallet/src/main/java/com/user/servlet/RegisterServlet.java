@@ -26,7 +26,7 @@ public class RegisterServlet extends HttpServlet {
 			String phone = req.getParameter("phone");
 			String password = req.getParameter("password");
 			String checkBox = req.getParameter("checkBox");
-			// System.out.println(name+" "+email+" "+phno+" "+password+" "+checkBox+" ");
+
 			User us = new User();
 			us.setName(name);
 			us.setUserName(userName);
@@ -35,21 +35,32 @@ public class RegisterServlet extends HttpServlet {
 			us.setPassword(password);
 
 			HttpSession session = req.getSession();
+			session.removeAttribute("userobj");//xóa thông tin người dùng cũ
 			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
 			boolean f = dao.userRegister(us);
 			if (checkBox != null) {
 				if (f) {
-					// System.out.println("User Register Success...");
-					session.setAttribute("succMsg", "Registration successfully...");
-					resp.sendRedirect("index.jsp");
-				} else {
-					// System.out.println("Something wrong on server...");
-					session.setAttribute("failMsg", "Something wrong on server...");
-					resp.sendRedirect("register.jsp");
-				}
+                    // Lấy ID của người dùng mới đăng ký
+                    int userId = dao.getUserIdByUsername(userName); // Phương thức này sẽ lấy ID của người dùng vừa tạo
+
+                    // Chèn số dư ban đầu cho người dùng mới vào bảng account_balance
+                    if (userId != -1) { // Kiểm tra nếu ID hợp lệ
+                        boolean isBalanceInserted = dao.insertInitialBalance(userId, 0); // Đặt số dư ban đầu là 0
+                        if (isBalanceInserted) {
+                            session.setAttribute("succMsg", "Đăng ký thành công. Bạn sẽ chuyển đến Trang Chủ sau 3 giây!");
+                            resp.sendRedirect("register.jsp");
+                        } else {
+                            session.setAttribute("failMsg", "Tên đăng nhập hoặc email hoặc số điện thoại đã tồn tại");
+                            resp.sendRedirect("register.jsp");
+                        }
+                    }
+                } else {
+                    session.setAttribute("failMsg", "Tên đăng nhập hoặc email hoặc số điện thoại đã tồn tại");
+                    resp.sendRedirect("register.jsp");
+                }
 
 			} else {
-				session.setAttribute("failMsg", "Please Check Agree and condition");
+				session.setAttribute("failMsg", "Vui lòng chấp nhận điều khoản");
 				resp.sendRedirect("register.jsp");
 			}
 			

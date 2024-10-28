@@ -1,6 +1,8 @@
 package com.user.servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,41 +11,73 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.DAO.TransactionDAO;
+import com.DAO.TransactionDAOImpl;
 import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
+import com.entity.Transaction;
+import com.entity.User;
 
 @WebServlet("/transfer")
 public class TransferServlet extends HttpServlet {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    String receiverUsername = request.getParameter("receiver");
+	    String amountStr = request.getParameter("amount");
+	    String message = request.getParameter("message"); // Lấy nội dung chuyển
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            int senderId = Integer.parseInt(req.getParameter("senderId"));
-            int receiverId = Integer.parseInt(req.getParameter("receiverId"));
-            float amount = Float.parseFloat(req.getParameter("amount"));
+	    double amount = Double.parseDouble(amountStr);
+        HttpSession session = request.getSession();
+	    User sender = (User) request.getSession().getAttribute("userobj");
+	    
+	    // Tạo kết nối cơ sở dữ liệu
+	    try (Connection conn = DBConnect.getConn()) {
+	        UserDAOImpl userDao = new UserDAOImpl(conn);
+	        TransactionDAO transactionDAO = new TransactionDAOImpl(conn);
 
-            UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
-            HttpSession session = req.getSession();
+	        // Tìm người nhận từ database
+	        User receiver = userDao.getUserByUsernameOrEmailOrPhone(receiverUsername);
 
-            // Check if sender has sufficient balance
-            if (dao.canTransfer(senderId, amount)) {
-                // Deduct amount from sender
-                float newSenderBalance = dao.getBalance(senderId) - amount;
-                dao.updateBalance(senderId, newSenderBalance);
+	        if (receiver != null && amount > 0) {
+	            // Kiểm tra số dư của người gửi
+	        	double senderBalance = userDao.getBalanceByUserId(sender.getId());
+                if (senderBalance >= amount) {
+                    // Cập nhật số dư của người gửi
+                    userDao.updateUserBalance(sender.getId(), senderBalance - amount);
 
-                // Add amount to receiver
-                float newReceiverBalance = dao.getBalance(receiverId) + amount;
-                dao.updateBalance(receiverId, newReceiverBalance);
+                    // Cập nhật số dư của người nhận
+                    double receiverBalance = userDao.getBalanceByUserId(receiver.getId());
+                    userDao.updateUserBalance(receiver.getId(), receiverBalance + amount);
 
-                session.setAttribute("succMsg", "Transfer successful!");
-                resp.sendRedirect("transfer.jsp");
+	                // Tạo đối tượng Transaction
+	                Transaction transaction = new Transaction();
+	                transaction.setSenderId(sender.getId());
+	                transaction.setReceiverId(receiver.getId());
+	                transaction.setAmount(amount);
+	                transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
+	                transaction.setStatus("completed"); // Đặt trạng thái thành công
+	                transaction.setMessage(message); // Lưu nội dung chuyển tiền
+
+	                // Lưu giao dịch vào database
+	                transactionDAO.saveTransaction(transaction);
+
+
+                    session.setAttribute("successMessage", "Chuyển tiền thành công!");
+                    response.sendRedirect("transfer.jsp"); // Chuyển hướng đến trang thành công
+                } else {
+                    // Sử dụng session để thông báo lỗi
+
+                    session.setAttribute("errorMessage", "Số dư không đủ để thực hiện giao dịch.");
+                    response.sendRedirect("transfer.jsp"); // Chuyển hướng lại đến trang chuyển tiền
+                }
             } else {
-                session.setAttribute("failMsg", "Insufficient balance.");
-                resp.sendRedirect("transfer.jsp");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.sendRedirect("error.jsp");
-        }
-    }
+                // Sử dụng session để thông báo lỗi
+
+                session.setAttribute("errorMessage", "Người nhận không tồn tại.");
+                response.sendRedirect("transfer.jsp"); // Chuyển hướng lại đến trang chuyển tiền
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
 }

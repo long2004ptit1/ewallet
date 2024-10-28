@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 <style>
 @import
 	url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap")
@@ -33,14 +35,12 @@
 	margin-bottom: 20px;
 }
 </style>
+
+
 </head>
 <body>
-
-<!-- Header placeholder -->
-	<div class="header-space">
+<div class="header-space">
 		<%@include file="all_component/header.jsp"%>
 	</div>
-
-
 </body>
 </html>

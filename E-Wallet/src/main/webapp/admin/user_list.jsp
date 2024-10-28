@@ -36,7 +36,15 @@
 
 .history-table th {
 	background-color: #f2f2f2;
-}</style>
+
+}
+
+.history-table {
+    white-space: nowrap; /* Không ngắt dòng */
+    width: 200px; /* Điều chỉnh chiều rộng theo ý muốn */
+}
+
+</style>
 </head>
 <body>
 <%@include file="navbar.jsp"%>
@@ -46,12 +54,14 @@
 			<thead>
 				<tr>
 				<th>Id</th>
-					<th>Tên đăng nhập</th>
+					
 					<th>Họ tên</th>
+					<th>Tên đăng nhập</th>
 					<th>Email</th>
 					<th>Số điện thoại</th>
 					<th>Mật khẩu</th>
 					<th>Số dư</th>
+					<th>Thời gian tạo</th>
 					<th>Mô tả</th>
 				</tr>
 				</thead>
@@ -69,7 +79,8 @@
 			<td><%=user.getEmail()%></td>
 			<td><%=user.getPhone()%></td>
 			<td><%=user.getPassword()%></td>
-			<td><%= user.getBalance() %></td>
+			<td><%= user.getFormattedBalance()+" VNĐ" %></td>
+			 <td><%= user.getCreatedAt() %></td>
 			<td><a href="" class="btn btn-sm btn-primary">Chỉnh sửa</a> <a
 				href="#" class="btn btn-sm btn-danger">Xóa</a></td>
 

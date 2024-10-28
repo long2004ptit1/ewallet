@@ -41,42 +41,76 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return f;
 	}
-//	source->override
-	public User login(String email, String password) {
-		User us=null;
-		try {
-			String sql="select * from user where email=? and password=? ";
-			PreparedStatement ps=conn.prepareStatement(sql);
-			ps.setString(1,email);
-			ps.setString(2,password);
-			
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
-				us=new User();
-				us.setId(rs.getInt(1));
-				
-				us.setName(rs.getString(2));
-				us.setUserName(rs.getString(3));
-				us.setEmail(rs.getString(4));
-				us.setPhone(rs.getString(5));
-				us.setPassword(rs.getString(6));
-
-				
-				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	//getId 
+		public int getUserIdByUsername(String username) {
+		    int userId = -1;
+		    try {
+		        String sql = "SELECT id FROM user WHERE username = ?";
+		        PreparedStatement ps = conn.prepareStatement(sql);
+		        ps.setString(1, username);
+		        ResultSet rs = ps.executeQuery();
+		        if (rs.next()) {
+		            userId = rs.getInt("id");
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return userId;
 		}
-		return us;
+
+ 
+// chèn số dư ban đầu vào mySQL
+	public boolean insertInitialBalance(int userId, double initialBalance) {
+	    boolean inserted = false;
+	    try {
+	        String sql = "INSERT INTO account_balance (user_id, balance) VALUES (?, ?)";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ps.setInt(1, userId);
+	        ps.setDouble(2, initialBalance);
+	        int rowsAffected = ps.executeUpdate();
+	        if (rowsAffected == 1) {
+	            inserted = true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return inserted;
 	}
+
 	
+//login+balance
+	public User login(String email, String password) {
+	    User user = null;
+	    try {
+	        String sql = "SELECT u.*, ab.balance FROM user u LEFT JOIN account_balance ab ON u.id = ab.user_id WHERE u.email = ? AND u.password = ?";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ps.setString(1, email);
+	        ps.setString(2, password);
+	        ResultSet rs = ps.executeQuery();
+	        
+	        if (rs.next()) {
+	            user = new User();
+	            user.setId(rs.getInt("id"));
+	            user.setName(rs.getString("name"));
+	            user.setUserName(rs.getString("username"));
+	            user.setEmail(rs.getString("email"));
+	            user.setPhone(rs.getString("phone"));
+	            user.setPassword(rs.getString("password"));
+	            user.setBalance(rs.getDouble("balance")); // Lấy số dư từ kết quả truy vấn
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return user;
+	}
+
 	
 //userList
 	
 	public List<User> getAllUsers() {
 		List<User> userList = new ArrayList<>();
 		try {
-			String sql = "SELECT u.*, ab.balance FROM user u LEFT JOIN account_balance ab ON u.id = ab.user_id";
+			String sql = "SELECT u.*, ab.balance, ab.created_at FROM user u LEFT JOIN account_balance ab ON u.id = ab.user_id";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -88,7 +122,8 @@ public class UserDAOImpl implements UserDAO {
 				user.setEmail(rs.getString("email"));
 				user.setPhone(rs.getString("phone"));
 				user.setPassword(rs.getString("password"));
-				user.setBalance(rs.getFloat("balance"));
+				user.setBalance(rs.getDouble("balance"));
+				user.setCreatedAt(rs.getTimestamp("created_at"));
 				userList.add(user);
 			}
 
@@ -96,34 +131,78 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 		}
 		return userList;
+
 	}
 	
+	
 
-	
-////
-	
-	
-	public float getBalance(int userId) throws SQLException {
-        String query = "SELECT balance FROM account_balance WHERE user_id = ?";
-        PreparedStatement pst = conn.prepareStatement(query);
-        pst.setInt(1, userId);
-        ResultSet rs = pst.executeQuery();
-        if (rs.next()) {
-            return rs.getFloat("balance");
+    // Get User by Username, Email, or Phone
+	public User getUserByUsernameOrEmailOrPhone(String input) {
+        User user = null;
+        String sql = "SELECT * FROM user WHERE username = ? OR email = ? OR phone = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, input);
+            ps.setString(2, input);
+            ps.setString(3, input);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setName(rs.getString("name"));
+                    user.setUserName(rs.getString("username"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setPassword(rs.getString("password"));
+                }
+            }
+        } catch (Exception e) {
+        	e.printStackTrace();
         }
-        return 0;
+        return user;
     }
 
-    public boolean updateBalance(int userId, float newBalance) throws SQLException {
-        String query = "UPDATE account_balance SET balance = ?, last_updated = NOW() WHERE user_id = ?";
-        PreparedStatement pst = conn.prepareStatement(query);
-        pst.setFloat(1, newBalance);
-        pst.setInt(2, userId);
-        return pst.executeUpdate() > 0;
+	  // Get Account Balance by User ID
+    public double getBalanceByUserId(int userId) {
+        double balance = 0;
+        String sql = "SELECT balance FROM account_balance WHERE user_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    balance = rs.getDouble("balance");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return balance;
     }
 
-    public boolean canTransfer(int senderId, float amount) throws SQLException {
-        float senderBalance = getBalance(senderId);
-        return senderBalance >= amount;
-    }	
+    // Update User Balance
+    public boolean updateUserBalance(int userId, double newBalance) {
+        boolean updated = false;
+        String sql = "UPDATE account_balance SET balance = ? WHERE user_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDouble(1, newBalance);
+            ps.setInt(2, userId);
+            updated = (ps.executeUpdate() == 1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updated;
+    }
+
+
+
+
+
+
+
+
 }
+
+
+

@@ -14,6 +14,8 @@
   transition: .2s linear;
 }
 
+	
+
 html {
   font-size: 62.5%;
   overflow-x: hidden;
@@ -191,84 +193,7 @@ section {
   color: #bac34e;
 }
 
-.header .shopping-cart {
-  position: absolute;
-  top: 115%;
-  right: -105%;
-  background: #fff;
-  border-radius: .5rem;
-  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  width: 35rem;
-  padding: 2rem;
-}
 
-.header .shopping-cart.active {
-  right: 2rem;
-  -webkit-transition: .4s linear;
-  transition: .4s linear;
-}
-
-.header .shopping-cart .box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.header .shopping-cart .box .fa-times {
-  position: absolute;
-  top: 50%;
-  right: 2rem;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  font-size: 2rem;
-  color: #666;
-  cursor: pointer;
-}
-
-.header .shopping-cart .box .fa-times:hover {
-  color: #bac34e;
-}
-
-.header .shopping-cart .box img {
-  height: 10rem;
-}
-
-.header .shopping-cart .box .content h3 {
-  font-size: 1.7rem;
-  padding-bottom: .5rem;
-  color: #222;
-}
-
-.header .shopping-cart .box .content span {
-  font-size: 1.5rem;
-  color: #666;
-}
-
-.header .shopping-cart .box .content span.multiply {
-  margin: 0 .5rem;
-}
-
-.header .shopping-cart .total {
-  color: #666;
-  text-align: center;
-  font-size: 2.2rem;
-}
-
-.header .shopping-cart .total span {
-  color: #222;
-}
-
-.header .shopping-cart .btn {
-  text-align: center;
-  width: 100%;
-}
 
 .header .login-form {
   position: absolute;

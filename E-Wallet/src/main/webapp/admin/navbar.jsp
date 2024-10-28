@@ -1,5 +1,5 @@
-
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@page isELIgnored="false" %>
 <div class="container-fluid" style="height: 10px; background-color: #303f9f">
 
@@ -7,7 +7,7 @@
 <div class="container-fluid p-3 btn-light">
     <div class="row">
         <div class="col-md-3 text-success">
-            <h3><i class="fa-solid fa-book"></i> E-WALLET</h3>
+            <a href="home.jsp"><h3><i class="fa-solid fa-book"></i> E-WALLET</h3></a>
         </div>
         <div class="col-md-6">
             <form class="form-inline my-2 my-lg-0" method="post" action="search.jsp">
@@ -54,9 +54,10 @@
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <h4>Do you want logout?</h4>
+                    <h4>Bạn có muốn đăng xuất?</h4>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <a href="logout" class="btn btn-primary text-white">Yes</a> 
+                    <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary text-white">Yes</a> 
+                    <!--đưa về đúng trang index-->
                 </div>
             </div>
             <div class="modal-footer">

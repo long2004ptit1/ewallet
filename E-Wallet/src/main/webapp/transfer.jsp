@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="com.entity.User"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,8 +33,8 @@
 	height: 80px;
 	background-color: #f1f1f1;
 	text-align: center;
-	line-height: 50px;
-	font-size: 24px;
+	line-height: 20px;
+	font-size: 20px;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
@@ -77,6 +80,10 @@ h1 {
 	border-radius: 5px;
 	font-size: 16px; /* Tăng cỡ chữ của input */
 }
+#receiver {
+    text-transform: none;
+}
+
 
 /* Tăng cỡ chữ cho nút "Chuyển tiền" */
 .form-left button {
@@ -146,19 +153,29 @@ h2 {
 	<div class="container">
 		
 		<h1>Chuyển tiền</h1>
+		<c:if test="${not empty successMessage}">
+							<p style="color:green; text-align:center;font-weight: bold; font-size:20px;">${successMessage}</p>
+		<c:remove var="successMessage" scope="session"/> <!-- xoa thong bao cu -->
+						</c:if>
+						
+						<c:if test="${not empty errorMessage}">
+							<p style="color:red; text-align:center;font-weight: bold; font-size:20px;">${errorMessage}</p>
+							<c:remove var="errorMessage" scope="session"/> <!-- xoa thong bao cu -->
+						</c:if>
 		<div class="transfer-form">
 			<div class="form-left">
 			<form action="transfer" method="post">
 				<label for="account">Chọn quỹ</label> <select id="account">
-					<option value="vnd">Tài khoản quỹ VND - 0đ</option>
+					<option value="vnd">Tài khoản ví - ${userobj.formattedBalance}đ</option>
 				</select> <label for="receiver">Tài khoản nhận</label> 
-				<input type="text" id="receiver" placeholder="Nhập email hoặc số điện thoại hoặc username">
+				<input type="text" id="receiver" placeholder="Nhập email hoặc số điện thoại hoặc username" name="receiver">
 
 				<label for="receiver-name">Tên người nhận</label> <input type="text"
-					id="receiver-name" disabled> <label for="amount">Số
-					tiền</label> <input type="number" id="amount" placeholder="₫"> <label
+					id="receiver-name" disabled name="receiver_name">
+					 <label for="amount">Số
+					tiền</label> <input type="number" id="amount" placeholder="₫" name="amount" required min="1000"> <label
 					for="message">Nội dung chuyển</label>
-				<textarea id="message" rows="3" placeholder="Nội dung chuyển"></textarea>
+				<textarea id="message" rows="3" placeholder="Nội dung chuyển" name="message"></textarea>
 
 				<button type="submit">Chuyển tiền</button>
 				</form>
@@ -181,7 +198,7 @@ h2 {
 					</tr>
 					<tr>
 						<td>Số tiền chuyển tối thiểu</td>
-						<td>10,000 VND</td>
+						<td>1,000 VND</td>
 					</tr>
 					<tr>
 						<td>Số tiền chuyển tối đa</td>
@@ -206,6 +223,26 @@ h2 {
 			</table>
 		</div>
 	</div>
+
+<script>
+document.getElementById('receiver').addEventListener('input', function() {
+    const receiver = this.value;
+
+    // Gửi yêu cầu AJAX để lấy tên người nhận
+    fetch('getUserName?receiver=' + receiver)
+        .then(response => response.json())
+        .then(data => {
+        	if (data && data.name) {
+                document.getElementById('receiver-name').value = data.name;
+                document.getElementById('error-message').innerText = ""; // Xóa thông báo lỗi nếu có
+            } else if (data.message) {
+                document.getElementById('receiver-name').value = ''; // Xóa tên người nhận
+                document.getElementById('error-message').innerText = data.message; // Hiển thị thông báo không tìm thấy
+            }
+        });
+});
+</script>
+
 
 </body>
 

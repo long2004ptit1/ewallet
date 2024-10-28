@@ -27,7 +27,7 @@
             height: 80px;
             background-color: #f1f1f1;
             text-align: center;
-            line-height: 50px;
+            line-height: 20px;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
@@ -154,12 +154,13 @@
             <div class="form-left">
                 <p>Số dư quỹ: <span style="color: green;">0 VND</span></p>
                 <form action="deposit" method="post">
+                  <input type="hidden" name="user_id" value="${sessionScope.user.id}">
                 <label for="amount">Số tiền nạp:</label>
-                <input type="number" id="amount" placeholder="Số tiền nạp">
+                <input type="number" id="amount" placeholder="Số tiền nạp" name="amount">
                 <p style="color: red;">Tối thiểu 10,000 VND, Tối đa 500,000 VND</p>
 
                 <label for="payment-method">Cổng thanh toán:</label>
-                <select id="payment-method">
+                <select name="payment_method" id="payment-method">
                     <option value="momo">Momo (12)</option>
                     <option value="techcombank">Techcombank</option>
                     <option value="ACB">ACB</option>

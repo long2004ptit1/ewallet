@@ -27,7 +27,7 @@
             height: 80px;
             background-color: #f1f1f1;
             text-align: center;
-            line-height: 50px;
+            line-height: 20px;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;

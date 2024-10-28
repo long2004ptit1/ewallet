@@ -28,7 +28,7 @@ a:hover {
 		<div class="row p-5">
 
 			<div class="col-md-3">
-				<a href="add_books.jsp">
+				<a href="user_list.jsp">
 					<div class="card crd-ho" style="height: 180px;">
 						<div class="card-body text-center">
 							<br> <i class="fas fa-plus-square fa-3x text-primary"></i>
@@ -40,7 +40,7 @@ a:hover {
 			</div>
 
 			<div class="col-md-3">
-				<a href="all_books.jsp">
+				<a href="deposit_required.jsp">
 					<div class="card crd-ho" style="height: 180px;">
 						<div class="card-body text-center">
 							<br> <i class="fa-solid fa-book-open fa-3x text-danger"></i>
@@ -52,7 +52,7 @@ a:hover {
 			</div>
 
 			<div class="col-md-3">
-				<a href="orders.jsp">
+				<a href="withdraw_required.jsp">
 					<div class="card crd-ho" style="height: 180px;">
 						<div class="card-body text-center">
 							<br> <i class="fas fa-box-open fa-3x text-warning"></i>

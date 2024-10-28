@@ -1,5 +1,8 @@
 package com.entity;
 
+import java.text.DecimalFormat;
+import java.sql.Timestamp;
+
 public class User {
 	private int id;
 	private String name;
@@ -7,12 +10,17 @@ public class User {
 	private String email;
 	private String phone;
 	private String password;
-	private float balance;
+	private double balance;
+	private Timestamp createdAt;
 
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public String getFormattedBalance() {
+        DecimalFormat df = new DecimalFormat("#,###"); // Định dạng số với dấu phẩy
+        return df.format(balance); // Trả về số dư đã định dạng
+    }
 
 	
 	public int getId() {
@@ -66,10 +74,16 @@ public class User {
 	        return balance;
 	    }
 
-	    public void setBalance(float balance) {
+	public void setBalance(double balance) {
 	        this.balance = balance;
 	    }
+	 public Timestamp getCreatedAt() {
+	        return createdAt;
+	    }
 
+	 public void setCreatedAt(Timestamp createdAt) {
+	        this.createdAt = createdAt;
+	    }
 
 		@Override
 		public String toString() {

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,7 +83,7 @@ select:focus {
 	height: 70px;
 	background-color: #f1f1f1;
 	text-align: center;
-	line-height: 50px;
+	line-height: 20px;
 	font-size: 24px;
 	font-weight: bold;
 	margin-bottom: 20px;
@@ -106,6 +108,20 @@ h1 {
 
 <form action="register" method="post">
 	<h1> Đăng ký</h1>
+	<c:if test="${not empty succMsg}">
+							<p style="color:green; text-align:center;font-weight: bold;">${succMsg}</p>
+							 <script>
+                setTimeout(function() {
+                    window.location.href = 'index.jsp'; // Chuyển hướng đến trang index sau 3 giây
+                }, 3000); // Thời gian delay 3 giây
+            </script>
+							<c:remove var="succMsg" scope="session"/> <!-- xoa thong bao cu -->
+						</c:if>
+						
+						<c:if test="${not empty failMsg}">
+							<p style="color:red; text-align:center;font-weight: bold">${failMsg}</p>
+							<c:remove var="failMsg" scope="session"/> <!-- xoa thong bao cu -->
+						</c:if>
 						<div class="form-group">
 								<label>Họ tên*</label> <input type="text" name="name" required
 									class="form-control" >

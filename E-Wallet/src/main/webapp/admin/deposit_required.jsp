@@ -1,3 +1,9 @@
+<%@page import="java.util.List"%>
+<%@page import="com.DAO.DepositRequestDAO"%>
+<%@page import="com.entity.DepositRequest"%>
+<%@page import="com.DB.DBConnect"%>
+<%@page import="com.entity.DepositRequest"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -51,18 +57,26 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
-				                    <td>ABCD123</td>
-                    <td>long2004ptit</td>
-
-                    <td>100.000</td>
-                    <td>Techcombank</td>
-                    <td>25/10/2024 10:40:54</td>
-                    
-					<td><a href="" class="btn btn-sm btn-primary">Xác nhận</a> <a
-				href="#" class="btn btn-sm btn-danger">Hủy</a></td>
-                </tr>
-				</tbody>
+            <%
+                DepositRequestDAO dao = new DepositRequestDAO(DBConnect.getConn());
+                List<DepositRequest> requests = dao.getPendingRequests();
+                for (DepositRequest depositRequest : requests) {
+            %>
+            <tr>
+                <td><%= depositRequest.getRequestId() %></td>
+                <td><%= depositRequest.getUsername() %></td> <!-- Giả sử bạn có phương thức lấy tên đăng nhập người dùng -->
+                <td><%= depositRequest.getAmount() %> VND</td>
+                <td><%= depositRequest.getPaymentMethod() %></td>
+                <td><%= depositRequest.getRequestTime() %></td>
+                <td>
+                    <a href="confirmDeposit?requestId=<%= depositRequest.getRequestId() %>" class="btn btn-sm btn-primary">Xác nhận</a>
+                    <a href="cancelDeposit?requestId=<%= depositRequest.getRequestId() %>" class="btn btn-sm btn-danger">Hủy</a>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+        </tbody>
 				<!-- Add history rows here -->
 			</table>
 		</div>

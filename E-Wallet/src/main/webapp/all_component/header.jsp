@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false" %>
+<%@page import="com.entity.User"%>
+<%@page import="java.util.List"%>
+<%@page import="com.DB.DBConnect"%>
+<%@page import="com.DAO.UserDAOImpl"%>
 
 <html lang="en">
 <head>
@@ -14,7 +19,71 @@
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="all_component/header.css">
+     <style>
     
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.user-info .user-details {
+    display: flex;
+    flex-direction: column; /* Sắp xếp tên và số dư theo cột */
+    align-items: flex-start;
+}
+
+.user-info #user-icon {
+    font-size: 20px;
+}
+
+.user-info .name {
+    font-size: 15px;
+}
+
+.user-info .balance {
+    font-size: 14px;
+    color: #dcdcdc;
+}
+/* Nút đăng xuất */
+.logout {
+    padding: 3px 6px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #f44336; /* Màu đỏ cho nút Đăng Xuất */
+    margin-top: 5px; /* Khoảng cách bên trên */
+    font-weight: bold;
+    font-size: 10px; /* Giảm kích thước chữ */
+}
+
+.logout:hover {
+    background-color: #bac34e; /* Màu khi di chuột qua */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bóng đổ khi di chuột qua */
+}
+
+
+    
+    </style>
 
 </head>
 <body>
@@ -23,98 +92,41 @@
 
 <header class="header">
 
-    <a href="home.html" class="logo"> <i class="fas fa-shopping-basket"></i> E-WALLET </a>
+    <a href="home.jsp" class="logo"> <i class="fas fa-shopping-basket"></i> E-WALLET </a>
 
     <nav class="navbar">
-        <a href="index.jsp">Trang chủ</a>
+        <a href="home.jsp">Trang chủ</a>
         <a href="transfer.jsp">Chuyển tiền</a>
         <a href="withdraw.jsp">Rút tiền</a>
         <a href="deposit.jsp">Nạp tiền</a>
-        <a href="history.jsp">Lịch sử giao dịch</a>
+        <a href="history.jsp">Lịch sử</a>
         <a href="contact.html">Đầu tư</a>
-        <a href="changepassword.jsp">Đổi mật khẩu</a>
+        <a href="infor_user.jsp">Thông tin cá nhân</a>
     </nav>
 
-    <div class="icons">
-        <div id="search-btn" class="fas fa-search"></div>
+
+    <!-- Kiểm tra và hiển thị thông tin người dùng đã đăng nhập -->
+    <c:if test="${not empty userobj}">
+        <div class="user-info">
+            <!-- Icon user -->
+            <div id="user-icon" class="fas fa-user"></div>
+            <!-- Hiển thị họ tên và số dư -->
+            <div class="user-details">
+                <span class="name">${userobj.name}</span>
+                <span class="balance">Số dư: ${userobj.formattedBalance} Đ</span>
+            </div>
+			
+        </div>	
+         <a href="logout" class="logout"">Đăng xuất</a> 
+    </c:if>
+
+    <!-- Nếu chưa đăng nhập, hiển thị biểu tượng đăng nhập -->
+    <c:if test="${empty userobj}">
         <div id="login-btn" class="fas fa-user"></div>
-    </div>
+    </c:if>
 
-    <form action="" class="search-form">
-        <input type="search" placeholder="search here..." id="search-box">
-        <label for="search-box" class="fas fa-search"></label>
-    </form>
-
-
-<!--     <form action="" class="login-form">
-        <h3>login form</h3>
-        <input type="email" placeholder="enter your email" class="box">
-        <input type="password" placeholder="enter your password" class="box">
-        <div class="remember">
-            <input type="checkbox" name="" id="remember-me">
-            <label for="remember-me">remember me</label>
-        </div>
-        <input type="submit" value="login now" class="btn">
-        <p>forget password? <a href="#">click here</a></p>
-        <p>don't have an account? <a href="#">create one</a></p>
-    </form> -->
 
 </header>
-<script>
-let searchForm = document.querySelector('.search-form');
 
-let loginForm = document.querySelector('.login-form');
-let navbar = document.querySelector('.navbar');
-
-// Hiển thị form tìm kiếm
-document.querySelector('#search-btn').onclick = () => {
-    searchForm.classList.toggle('active');
-
-    loginForm.classList.remove('active');
-    navbar.classList.remove('active');
-}
-
-
-// Hiển thị form đăng nhập
-document.querySelector('#login-btn').onclick = () => {
-    loginForm.classList.toggle('active');
-    searchForm.classList.remove('active');
-    cart.classList.remove('active');
-    navbar.classList.remove('active');
-}
-
-// Hiển thị menu
-document.querySelector('#menu-btn').onclick = () => {
-    navbar.classList.toggle('active');
-    searchForm.classList.remove('active');
-    cart.classList.remove('active');
-    loginForm.classList.remove('active');
-}
-
-// Đóng các form khi cuộn trang
-window.onscroll = () => {
-    searchForm.classList.remove('active');
-    cart.classList.remove('active');
-    loginForm.classList.remove('active');
-    navbar.classList.remove('active');
-}
-
-// Trình chiếu slide
-let slides = document.querySelectorAll('.home .slides-container .slide');
-let index = 0;
-
-function next() {
-    slides[index].classList.remove('active');
-    index = (index + 1) % slides.length;
-    slides[index].classList.add('active');
-}
-
-function prev() {
-    slides[index].classList.remove('active');
-    index = (index - 1 + slides.length) % slides.length;
-    slides[index].classList.add('active');
-}
-
-</script>
 </body>
 </html>
