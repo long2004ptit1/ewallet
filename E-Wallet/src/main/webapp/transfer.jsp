@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.entity.User"%>
+<%@page import="com.entity.Transaction"%>
+<%@page import="java.util.List"%>
+<%@page import="com.DB.DBConnect"%>
+<%@page import="com.DAO.TransactionDAOImpl"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page isELIgnored="false" %>
 <!DOCTYPE html>
@@ -211,37 +214,58 @@ h2 {
 		<div class="history-table">
 			<h2>Lịch sử chuyển tiền</h2>
 			<table>
+			<thead>
 				<tr>
-					<th>Mã đơn</th>
+					<th>Mã giao dịch</th>
 					<th>Số tiền</th>
-					<th>Tài khoản gửi/nhận</th>
-					<th>Ngày tạo</th>
+					<th>Tài khoản nhận</th>
+					<th>Tên người nhận</th>
+					<th>Thời gian</th>
 					<th>Trạng thái</th>
-					<th>Mô tả</th>
+					<th>Nội dung</th>
 				</tr>
-				<!-- Add history rows here -->
+				        </thead>
+		 <tbody>
+<%
+
+                TransactionDAOImpl transactionDao = new TransactionDAOImpl(DBConnect.getConn());
+
+                User sender = (User) session.getAttribute("userobj");
+                
+                // Lấy lịch sử giao dịch của người dùng
+                List<Transaction> transactionHistory = transactionDao.getTransactionHistory(sender.getId());
+                
+                // Kiểm tra nếu có lịch sử giao dịch
+                if (transactionHistory != null && !transactionHistory.isEmpty()) {
+                    // Hiển thị từng giao dịch
+                    for (Transaction transaction : transactionHistory) {
+            %>
+                <tr>
+                    <td><%= transaction.getTransactionId() %></td>
+                    <td><%= transaction.getFormattedAmount() + " VNĐ" %></td>
+                    <td><%= transaction.getReceiverName() %></td>
+                    <td><%= transaction.getReceiverUsername() %></td>
+                    <td><%= transaction.getTransactionDate() %></td>
+                    <td><%= transaction.getStatus() %></td>
+                    <td><%= transaction.getMessage() != null ? transaction.getMessage() : "Không có mô tả" %></td>
+                </tr>
+            <%
+                    }
+                } else {
+            %>
+                <tr>
+                    <td colspan="7" style="text-align:center;">Chưa có lịch sử giao dịch nào.</td>
+                </tr>
+            <%
+                }
+            %>
+        </tbody>
+
 			</table>
 		</div>
 	</div>
 
-<script>
-document.getElementById('receiver').addEventListener('input', function() {
-    const receiver = this.value;
 
-    // Gửi yêu cầu AJAX để lấy tên người nhận
-    fetch('getUserName?receiver=' + receiver)
-        .then(response => response.json())
-        .then(data => {
-        	if (data && data.name) {
-                document.getElementById('receiver-name').value = data.name;
-                document.getElementById('error-message').innerText = ""; // Xóa thông báo lỗi nếu có
-            } else if (data.message) {
-                document.getElementById('receiver-name').value = ''; // Xóa tên người nhận
-                document.getElementById('error-message').innerText = data.message; // Hiển thị thông báo không tìm thấy
-            }
-        });
-});
-</script>
 
 
 </body>

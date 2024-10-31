@@ -52,7 +52,7 @@ a:hover {
 			</div>
 
 			<div class="col-md-3">
-				<a href="withdraw_required.jsp">
+				<a href="withdraw_requests.jsp">
 					<div class="card crd-ho" style="height: 180px;">
 						<div class="card-body text-center">
 							<br> <i class="fas fa-box-open fa-3x text-warning"></i>

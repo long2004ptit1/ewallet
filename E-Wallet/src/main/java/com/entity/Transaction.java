@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class Transaction {
@@ -12,16 +13,38 @@ public class Transaction {
 	private Timestamp transactionDate;
 	private String status;
 	private String message;
+	private String receiverName; // Tên người nhận
+    private String receiverUsername; // Tài khoản người nhận
 	
 	public Transaction() {
         this.transactionId = generateTransactionId(); // Tạo mã giao dịch
         this.status = "pending"; // Trạng thái mặc định
     }
 	
+	public String getFormattedAmount() {
+        DecimalFormat df = new DecimalFormat("#,###"); 
+        return df.format(amount); 
+    }
+	
 	private String generateTransactionId() {
-        // Tạo mã giao dịch ngẫu nhiên
         return "TX-" + UUID.randomUUID().toString().substring(0, 8);
     }
+	
+	public String getReceiverName() {
+		return receiverName;
+	}
+
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+
+	public String getReceiverUsername() {
+		return receiverUsername;
+	}
+
+	public void setReceiverUsername(String receiverUsername) {
+		this.receiverUsername = receiverUsername;
+	}
 
 	public int getId() {
 		return id;
