@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 	public boolean userRegister(User us) {
 		boolean f=false;
 		try {
-			String sql="insert into user(name,username,email,phone,password) values(?,?,?,?,?)"; //values: vitri can dien
+			String sql="insert into user(name,username,email,phone,password) values(?,?,?,?,?)";
 			PreparedStatement ps=conn.prepareStatement(sql);
 			ps.setString(1, us.getName());
 			ps.setString(2, us.getUserName());

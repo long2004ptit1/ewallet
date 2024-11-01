@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -150,25 +152,34 @@
 
     <div class="container">
         <h1>Tạo yêu cầu rút tiền</h1>
+        <c:if test="${not empty successMessage}">
+							<p style="color:green; text-align:center;font-weight: bold; font-size:20px;">${successMessage}</p>
+		<c:remove var="successMessage" scope="session"/> <!-- xoa thong bao cu -->
+						</c:if>
+						
+						<c:if test="${not empty errorMessage}">
+							<p style="color:red; text-align:center;font-weight: bold; font-size:20px;">${errorMessage}</p>
+							<c:remove var="errorMessage" scope="session"/> <!-- xoa thong bao cu -->
+						</c:if>
         <div class="deposit-form">
             <div class="form-left">
-                <p>Số dư quỹ: <span style="color: green;">0 VND</span></p>
+                <p>Số dư quỹ: <span style="color: green;">${userobj.formattedBalance} VND</span></p>
                 <form action="withdraw" method="post">
                 <label for="amount">Số tiền rút:</label>
-                <input type="number" id="amount" placeholder="Số tiền nạp">
+                <input type="number" id="amount" placeholder="Số tiền rút" name="amount" required>
                 <p style="color: red;">Tối thiểu 10,000 VND, Tối đa 300,000,000 VND</p>
 
                 <label for="payment-method">Cổng thanh toán:</label>
-                <select id="payment-method">
+                <select id="payment-method" name="payment_method">
                     <option value="momo">Momo (12)</option>
                     <option value="techcombank">Techcombank</option>
                     <option value="ACB">ACB</option>
                     <option value="ACB">Vietcombank</option>
                 </select>
                 <label for="amount">Số tài khoản</label>
-                <input type="number" id="amount" placeholder="Số tài khoản">
+                <input type="number" id="account_number" placeholder="Số tài khoản" name="account_number">
                 <label for="amount">Tên tài khoản</label>
-                <input type="number" id="amount" placeholder="Tên tài khoản">
+                <input type="text" id="account_name" placeholder="Tên tài khoản" name="account_name">
 
                 <button type="submit">Rút tiền ngay</button>
                 </form>

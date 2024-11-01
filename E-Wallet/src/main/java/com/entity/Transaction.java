@@ -13,12 +13,12 @@ public class Transaction {
 	private Timestamp transactionDate;
 	private String status;
 	private String message;
-	private String receiverName; // Tên người nhận
-    private String receiverUsername; // Tài khoản người nhận
+	private String receiverName;
+    private String receiverUsername;
 	
 	public Transaction() {
-        this.transactionId = generateTransactionId(); // Tạo mã giao dịch
-        this.status = "pending"; // Trạng thái mặc định
+        this.transactionId = generateTransactionId(); 
+        this.status = "pending"; 
     }
 	
 	public String getFormattedAmount() {

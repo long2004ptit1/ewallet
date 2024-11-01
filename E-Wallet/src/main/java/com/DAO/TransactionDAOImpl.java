@@ -33,7 +33,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 			stmt.executeUpdate();
 
-			// Lấy id tự động tăng
 			ResultSet rs = stmt.getGeneratedKeys();
 			if (rs.next()) {
 				transaction.setId(rs.getInt(1)); // Cập nhật id cho đối tượng transaction
@@ -76,6 +75,6 @@ public class TransactionDAOImpl implements TransactionDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return transactions; // Trả về danh sách giao dịch
+        return transactions;
 }
 }
