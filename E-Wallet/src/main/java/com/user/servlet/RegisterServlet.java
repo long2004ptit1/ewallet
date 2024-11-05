@@ -35,7 +35,7 @@ public class RegisterServlet extends HttpServlet {
 			us.setPassword(password);
 
 			HttpSession session = req.getSession();
-			session.removeAttribute("userobj");//xóa thông tin người dùng cũ
+			session.removeAttribute("userobj");
 			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
 			boolean f = dao.userRegister(us);
 			if (checkBox != null) {

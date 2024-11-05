@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- custom css file link  -->
-    <link rel="stylesheet" href="all_component/header.css">
+    <link rel="stylesheet" href="header.css">
      <style>
     
 .user-info {
@@ -92,17 +92,16 @@
 
 <header class="header">
 
-    <a href="home.jsp" class="logo"> <i class='fas fa-wallet' style='font-size:36px'></i>  E-WALLET </a>
+    <a href="home.jsp" class="logo">  <i class='fas fa-wallet' style='font-size:36px'></i> E-WALLET </a>
 
     <nav class="navbar">
         <a href="home.jsp">Trang chủ</a>
-        <a href="transfer.jsp">Chuyển tiền</a>
-        <a href="withdraw.jsp">Rút tiền</a>
-        <a href="deposit.jsp">Nạp tiền</a>
-        <a href="history.jsp">Lịch sử</a>
-        <a href="infor_user.jsp">Thông tin cá nhân</a>
+        <a href="user_list.jsp">DS người dùng</a>
+        <a href="admin_list.jsp">DS admin</a>
+        <a href="deposit_requests.jsp">YC Nạp tiền</a>
+        <a href="withdraw_requests.jsp">YC Rút tiền</a>
+        <a href="infor_user.jsp">Lịch sử</a>
     </nav>
-
 
     <!-- Kiểm tra và hiển thị thông tin người dùng đã đăng nhập -->
     <c:if test="${not empty userobj}">
@@ -116,7 +115,7 @@
             </div>
 			
         </div>	
-         <a href="logout" class="logout"">Đăng xuất</a> 
+         <a href="${pageContext.request.contextPath}/logout" class="logout">Đăng xuất</a> 
     </c:if>
 
     <!-- Nếu chưa đăng nhập, hiển thị biểu tượng đăng nhập -->

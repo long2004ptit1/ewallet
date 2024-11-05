@@ -63,6 +63,11 @@ public class TransactionDAOImpl implements TransactionDAO {
                 Transaction transaction = new Transaction();
                 transaction.setTransactionId(rs.getString("transaction_id")); 
                 transaction.setAmount(rs.getDouble("amount")); 
+                
+/*             // Thiết lập thông tin người gửi
+                transaction.setSenderName(rs.getString("sender_name"));
+                transaction.setSenderUserName(rs.getString("sender_username"));*/
+                
                 transaction.setReceiverName(rs.getString("receiver_name"));
                 transaction.setReceiverUsername(rs.getString("receiver_username")); 
 

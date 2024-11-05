@@ -9,9 +9,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%@include file="allCss.jsp"%>
 <style>h2 {
 	padding: 20px;
+	font-size:20px;
 }
 
 .history-table {
@@ -44,10 +44,55 @@
     width: 200px; /* Điều chỉnh chiều rộng theo ý muốn */
 }
 
+/*button  */
+
+.button{
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-approve {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-approve:hover {
+    background-color: #45a049;
+}
+
+.btn-reject {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-reject:hover {
+    background-color: #d32f2f;
+}
+
+
+/* Add space for header */
+.header-space {
+	height: 80px;
+	background-color: #f1f1f1;
+	text-align: center;
+	line-height: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
 </style>
 </head>
 <body>
-<%@include file="navbar.jsp"%>
+<!-- Header placeholder -->
+    <div class="header-space">
+ <%@include file="header.jsp"%>
+    </div>
 <div class="history-table">
 			<h2>Danh sách người dùng</h2>
 			<table>
@@ -62,7 +107,7 @@
 					<th>Mật khẩu</th>
 					<th>Số dư</th>
 					<th>Thời gian tạo</th>
-					<th>Mô tả</th>
+					<th>Thao tác</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -81,8 +126,8 @@
 			<td><%=user.getPassword()%></td>
 			<td><%= user.getFormattedBalance()+" VNĐ" %></td>
 			 <td><%= user.getCreatedAt() %></td>
-			<td><a href="" class="btn btn-sm btn-primary">Chỉnh sửa</a> <a
-				href="#" class="btn btn-sm btn-danger">Xóa</a></td>
+			<td><a href="" class="button btn-approve">Chỉnh sửa</a> <a
+				href="#" class="button btn-reject" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">Xóa</a></td>
 
 
 		</tr>

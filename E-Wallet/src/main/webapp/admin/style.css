@@ -187,8 +187,6 @@ section {
   text-decoration: underline;
 }
 
-/* ///// */
-
 .home {
   padding-top: 14rem;
   position: relative;
@@ -200,8 +198,6 @@ section {
   flex-wrap: wrap;
   gap: 1.5rem;
   display: none;
-  
-  
 }
 
 .home .slides-container .slide.active {

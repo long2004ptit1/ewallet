@@ -152,19 +152,25 @@
         <h1>Tạo yêu cầu nạp tiền</h1>
         <div class="deposit-form">
             <div class="form-left">
-                <p>Số dư quỹ: <span style="color: green;">0 VND</span></p>
+                <p>Số dư quỹ: <span style="color: green;">${userobj.formattedBalance} VND</span></p>
                 <form action="deposit" method="post">
                   <input type="hidden" name="user_id" value="${sessionScope.user.id}">
                 <label for="amount">Số tiền nạp:</label>
                 <input type="number" id="amount" placeholder="Số tiền nạp" name="amount">
                 <p style="color: red;">Tối thiểu 10,000 VND, Tối đa 500,000 VND</p>
 
-                <label for="payment-method">Cổng thanh toán:</label>
-                <select name="payment_method" id="payment-method">
-                    <option value="momo">Momo (12)</option>
-                    <option value="techcombank">Techcombank</option>
-                    <option value="ACB">ACB</option>
+                <label for="payment_method">Cổng thanh toán:</label>
+                <select name="payment_method" id="payment_method">
+                    <option value="momo">MOMO</option>
+                    <option value="techcombank">TECHCOMBANK</option>
                 </select>
+                
+                <label for="amount">Số tài khoản</label>
+                <input type="number" id="account_number" name="account_number" readonly placeholder="0977735502">
+                <label for="amount">Tên tài khoản</label>
+                <input type="text" id="account_name" name="account_name" readonly placeholder="VU THANH LONG">
+                
+                
 
                 <button type="submit">Nạp tiền ngay</button>
                 </form>
@@ -189,28 +195,7 @@
                         <td>500,000 VND</td>
                     </tr>
                 </table>
-                <table style="margin-top: 10px;">
-                    <tr>
-                        <th>Cổng thanh toán</th>
-                        <th>Phí cố định</th>
-
-                    </tr>
-                    <tr>
-                        <td>Techcombank</td>
-                        <td>0</td>
-
-                    </tr>
-                    <tr>
-                        <td>ACB - NH TMCP A CHAU</td>
-                        <td>0</td>
-
-                    </tr>
-                    <tr>
-                        <td>Momo (12)</td>
-                        <td>0</td>
- 
-                    </tr>
-                </table>
+              
             </div>
         </div>
 
@@ -238,6 +223,28 @@
             </table>
         </div>
     </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const paymentMethodSelect = document.getElementById("payment_method");
+    const accountNumberInput = document.getElementById("account_number");
+    const accountNameInput = document.getElementById("account_name");
+
+    paymentMethodSelect.addEventListener("change", function () {
+        if (paymentMethodSelect.value === "momo") {
+            accountNumberInput.value = "0977735502";
+            accountNameInput.value = "VU THANH LONG";
+        } else if (paymentMethodSelect.value === "techcombank") {
+            accountNumberInput.value = "1900123456";
+            accountNameInput.value = "VU THANH LONG";
+        }
+    });
+});
+
+</script>
+
+
 
 </body>
 

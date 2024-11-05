@@ -11,8 +11,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%@include file="allCss.jsp"%>
-<style>h2 {
+
+<style>
+h2 {
+	font-size:20px;
 	padding: 20px;
 }
 
@@ -42,10 +44,25 @@
 
 .history-table th {
 	background-color: #f2f2f2;
-}</style>
+}
+
+/* Add space for header */
+        .header-space {
+            height: 80px;
+            background-color: #f1f1f1;
+            text-align: center;
+            line-height: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+</style>
 </head>
 <body>
-<%@include file="navbar.jsp"%>
+    <div class="header-space">
+ <%@include file="header.jsp"%>
+    </div>
 <div class="history-table">
 
 			<h2>Lịch sử rút tiền</h2>

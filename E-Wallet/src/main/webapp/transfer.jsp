@@ -5,7 +5,7 @@
 <%@page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.TransactionDAOImpl"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page isELIgnored="false" %>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,10 +83,10 @@ h1 {
 	border-radius: 5px;
 	font-size: 16px; /* Tăng cỡ chữ của input */
 }
-#receiver {
-    text-transform: none;
-}
 
+#receiver {
+	text-transform: none;
+}
 
 /* Tăng cỡ chữ cho nút "Chuyển tiền" */
 .form-left button {
@@ -154,33 +154,40 @@ h2 {
 	</div>
 
 	<div class="container">
-		
+
 		<h1>Chuyển tiền</h1>
 		<c:if test="${not empty successMessage}">
-							<p style="color:green; text-align:center;font-weight: bold; font-size:20px;">${successMessage}</p>
-		<c:remove var="successMessage" scope="session"/> <!-- xoa thong bao cu -->
-						</c:if>
-						
-						<c:if test="${not empty errorMessage}">
-							<p style="color:red; text-align:center;font-weight: bold; font-size:20px;">${errorMessage}</p>
-							<c:remove var="errorMessage" scope="session"/> <!-- xoa thong bao cu -->
-						</c:if>
+			<p
+				style="color: green; text-align: center; font-weight: bold; font-size: 20px;">${successMessage}</p>
+			<c:remove var="successMessage" scope="session" />
+			<!-- xoa thong bao cu -->
+		</c:if>
+
+		<c:if test="${not empty errorMessage}">
+			<p
+				style="color: red; text-align: center; font-weight: bold; font-size: 20px;">${errorMessage}</p>
+			<c:remove var="errorMessage" scope="session" />
+			<!-- xoa thong bao cu -->
+		</c:if>
 		<div class="transfer-form">
 			<div class="form-left">
-			<form action="transfer" method="post">
-				<label for="account">Chọn quỹ</label> <select id="account">
-					<option value="vnd">Tài khoản ví - ${userobj.formattedBalance}đ</option>
-				</select> <label for="receiver">Tài khoản nhận</label> 
-				<input type="text" id="receiver" placeholder="Nhập email hoặc số điện thoại hoặc username" name="receiver">
+				<form action="transfer" method="post">
+					<label for="account">Chọn quỹ</label> <select id="account">
+						<option value="vnd">Tài khoản ví -
+							${userobj.formattedBalance}đ</option>
+					</select> <label for="receiver">Tài khoản nhận</label> <input type="text"
+						id="receiver"
+						placeholder="Nhập email hoặc số điện thoại hoặc username"
+						name="receiver"> <label for="receiver-name">Tên
+						người nhận</label> <input type="text" id="receiver-name" disabled
+						name="receiver_name"> <label for="amount">Số tiền</label>
+					<input type="number" id="amount" placeholder="₫" name="amount"
+						required min="1000"> <label for="message">Nội dung
+						chuyển</label>
+					<textarea id="message" rows="3" placeholder="Nội dung chuyển"
+						name="message"></textarea>
 
-				<label for="receiver-name">Tên người nhận</label> <input type="text"
-					id="receiver-name" disabled name="receiver_name">
-					 <label for="amount">Số
-					tiền</label> <input type="number" id="amount" placeholder="₫" name="amount" required min="1000"> <label
-					for="message">Nội dung chuyển</label>
-				<textarea id="message" rows="3" placeholder="Nội dung chuyển" name="message"></textarea>
-
-				<button type="submit">Chuyển tiền</button>
+					<button type="submit">Chuyển tiền</button>
 				</form>
 			</div>
 
@@ -214,59 +221,88 @@ h2 {
 		<div class="history-table">
 			<h2>Lịch sử chuyển tiền</h2>
 			<table>
-			<thead>
-				<tr>
-					<th>Mã giao dịch</th>
-					<th>Số tiền</th>
-					<th>Tài khoản nhận</th>
-					<th>Tên người nhận</th>
-					<th>Thời gian</th>
-					<th>Trạng thái</th>
-					<th>Nội dung</th>
-				</tr>
-				        </thead>
-		 <tbody>
-<%
+				<thead>
+					<tr>
+						<th>Mã giao dịch</th>
+						<th>Số tiền</th>
+						<th>Tài khoản nhận</th>
+						<th>Tên người nhận</th>
+						<th>Thời gian</th>
+						<th>Trạng thái</th>
+						<th>Nội dung</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%
+						TransactionDAOImpl transactionDao = new TransactionDAOImpl(DBConnect.getConn());
 
-                TransactionDAOImpl transactionDao = new TransactionDAOImpl(DBConnect.getConn());
+						User sender = (User) session.getAttribute("userobj");
 
-                User sender = (User) session.getAttribute("userobj");
-                
-                // Lấy lịch sử giao dịch của người dùng
-                List<Transaction> transactionHistory = transactionDao.getTransactionHistory(sender.getId());
-                
-                // Kiểm tra nếu có lịch sử giao dịch
-                if (transactionHistory != null && !transactionHistory.isEmpty()) {
-                    // Hiển thị từng giao dịch
-                    for (Transaction transaction : transactionHistory) {
-            %>
-                <tr>
-                    <td><%= transaction.getTransactionId() %></td>
-                    <td><%= transaction.getFormattedAmount() + " VNĐ" %></td>
-                    <td><%= transaction.getReceiverName() %></td>
-                    <td><%= transaction.getReceiverUsername() %></td>
-                    <td><%= transaction.getTransactionDate() %></td>
-                    <td><%= transaction.getStatus() %></td>
-                    <td><%= transaction.getMessage() != null ? transaction.getMessage() : "Không có mô tả" %></td>
-                </tr>
-            <%
-                    }
-                } else {
-            %>
-                <tr>
-                    <td colspan="7" style="text-align:center;">Chưa có lịch sử giao dịch nào.</td>
-                </tr>
-            <%
-                }
-            %>
-        </tbody>
+						// Lấy lịch sử giao dịch của người dùng
+						List<Transaction> transactionHistory = transactionDao.getTransactionHistory(sender.getId());
+
+						// Kiểm tra nếu có lịch sử giao dịch
+						if (transactionHistory != null && !transactionHistory.isEmpty()) {
+							// Hiển thị từng giao dịch
+							for (Transaction transaction : transactionHistory) {
+					%>
+					<tr>
+						<td><%=transaction.getTransactionId()%></td>
+						<td style="color: red"><%="- " + transaction.getFormattedAmount() + " VND"%></td>
+						<td><%=transaction.getReceiverUsername()%></td>
+						<td><%=transaction.getReceiverName()%></td>
+
+						<td><%=transaction.getTransactionDate()%></td>
+						<td><%=transaction.getStatus()%></td>
+						<td><%=transaction.getMessage() != null ? transaction.getMessage() : "Không có mô tả"%></td>
+					</tr>
+					<%
+						}
+						} else {
+					%>
+					<tr>
+						<td colspan="7" style="text-align: center;">Chưa có lịch sử
+							giao dịch nào.</td>
+					</tr>
+					<%
+						}
+					%>
+				</tbody>
 
 			</table>
 		</div>
 	</div>
 
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#receiver').on('input', function() {
+        var receiverInput = $(this).val();
+        if (receiverInput.length > 0) {
+            $.ajax({
+                url: 'getReceiverName', // URL tới servlet để lấy tên người nhận
+                type: 'GET',
+                data: { username: receiverInput }, // Gửi tên tài khoản nhận
+                success: function(response) {
+                    // Nếu có kết quả trả về
+                    if (response === "Tài khoản không tồn tại") {
+                        $('#receiver-name').val(response); 
+                    } else {
+                        // Nếu có tên người nhận, cập nhật ô tên người nhận
+                        $('#receiver-name').val(response);
+                    }
+                },
+                error: function() {
+                    console.log('Error retrieving receiver name.');
+                }
+            });
+        } else {
+            $('#receiver-name').val(''); // Nếu ô rỗng, xóa ô tên người nhận
+        }
+    });
+});
+</script>
 
 </body>
 

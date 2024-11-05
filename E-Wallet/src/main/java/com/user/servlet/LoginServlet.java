@@ -35,6 +35,10 @@ public class LoginServlet extends HttpServlet{
 				if (us!=null) {
 					session.setAttribute("userobj",us);
 					session.setAttribute("user_id", us.getId());
+					
+					double userBalance = dao.getBalanceByUserId(us.getId());
+                    session.setAttribute("user_balance", userBalance);
+                    
 					resp.sendRedirect("home.jsp");
 				}
 				else {

@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nạp tiền</title>
+    <title>Rút tiền</title>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap");
 
@@ -197,7 +197,7 @@
                     </tr>
                     <tr>
                         <td>Số tiền tối thiểu</td>
-                        <td>50,000 VND</td>
+                        <td>10,000 VND</td>
                     </tr>
                     <tr>
                         <td>Số tiền tối đa</td>

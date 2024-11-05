@@ -82,7 +82,7 @@ public class UserDAOImpl implements UserDAO {
 	public User login(String email, String password) {
 	    User user = null;
 	    try {
-	        String sql = "SELECT u.*, ab.balance FROM user u LEFT JOIN account_balance ab ON u.id = ab.user_id WHERE u.email = ? AND u.password = ?";
+	        String sql = "SELECT u.*, ab.balance,ab.created_at FROM user u LEFT JOIN account_balance ab ON u.id = ab.user_id WHERE u.email = ? AND u.password = ?";
 	        PreparedStatement ps = conn.prepareStatement(sql);
 	        ps.setString(1, email);
 	        ps.setString(2, password);
@@ -96,7 +96,8 @@ public class UserDAOImpl implements UserDAO {
 	            user.setEmail(rs.getString("email"));
 	            user.setPhone(rs.getString("phone"));
 	            user.setPassword(rs.getString("password"));
-	            user.setBalance(rs.getDouble("balance")); // Lấy số dư từ kết quả truy vấn
+	            user.setBalance(rs.getDouble("balance")); 
+	            user.setCreatedAt(rs.getTimestamp("created_at")); 
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();

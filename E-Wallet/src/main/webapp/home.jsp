@@ -58,13 +58,13 @@
     text-align: center;
     text-decoration: none;
     color: white;
-    background-color: #f44336; /* Màu đỏ cho nút Đăng Xuất */
-    margin-top: 5px; /* Khoảng cách bên trên */
+    background-color: #f44336;
+    margin-top: 5px; 
     font-weight: bold;
 }
 .logout:hover {
-    background-color: #bac34e; /* Màu khi di chuột qua */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bóng đổ khi di chuột qua */
+    background-color: #bac34e; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
     
@@ -77,7 +77,7 @@
 
 <header class="header">
 
-    <a href="home.jsp" class="logo"> <i class="fas fa-shopping-basket"></i> E-WALLET </a>
+    <a href="home.jsp" class="logo"> <i class='fas fa-wallet' style='font-size:36px'></i>  E-WALLET </a>
 
     <nav class="navbar">
         <a href="home.jsp">Trang chủ</a>
@@ -85,7 +85,7 @@
         <a href="withdraw.jsp">Rút tiền</a>
         <a href="deposit.jsp">Nạp tiền</a>
         <a href="history.jsp">Lịch sử</a>
-        <a href="contact.html">Đầu tư</a>
+ <!--        <a href="history.jsp">Đầu tư</a> -->
         <a href="infor_user.jsp">Thông tin cá nhân</a>
     </nav>
 
@@ -93,9 +93,9 @@
     <!-- Kiểm tra và hiển thị thông tin người dùng đã đăng nhập -->
     <c:if test="${not empty userobj}">
         <div class="user-info">
-            <!-- Icon user -->
+
             <div id="user-icon" class="fas fa-user"></div>
-            <!-- Hiển thị họ tên và số dư -->
+
             <div class="user-details">
                 <span class="name">${userobj.name}</span>
                 <span class="balance">Số dư: ${userobj.formattedBalance} Đ</span>
@@ -106,16 +106,35 @@
 
     <!-- Nếu chưa đăng nhập, hiển thị biểu tượng đăng nhập -->
     <c:if test="${empty userobj}">
-        <div id="login-btn" class="fas fa-user"></div>
-    </c:if>
-
-
         
+         <div class="icons">
+        <div id="search-btn" class="fas fa-search"></div>
+        <div id="login-btn" class="fas fa-user"></div>
+    </div>
 
     <form action="" class="search-form">
         <input type="search" placeholder="search here..." id="search-box">
         <label for="search-box" class="fas fa-search"></label>
     </form>
+    
+    <form action="login" class="login-form" method="post">
+        <h3>Đăng nhập</h3>
+        
+        <input type="email" placeholder="Nhập tên đăng nhập " class="box" required name="email">
+        <input type="password" placeholder="Nhập mật khẩu" class="box" required name="password">
+        <div class="remember">
+            <input type="checkbox" name="" id="remember-me">
+            <label for="remember-me">Nhớ mật khẩu</label>
+        </div>
+        <input type="submit" value="Đăng nhập" class="btn">
+        <p>Quên mật khẩu? <a href="forgetpassword.jsp">Lấy lại</a></p>
+        <p>Bạn chưa có tài khoản? <a href="register.jsp">Đăng ký</a></p>
+    </form>
+        
+    </c:if>
+
+
+        
 
 
 </header>
@@ -133,7 +152,7 @@
                 <a href="#" class="btn">shop now</a>
             </div>
             <div class="image">
-                <img src="image/home-img-1.png" alt="">
+                <img src="image/pic.png" alt="">
             </div>
         </div>
 
@@ -198,25 +217,6 @@
 </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- footer section starts  -->
 
 <section class="footer">
@@ -271,18 +271,27 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <!-- custom css file link  -->
 <script>
+
+let searchForm = document.querySelector('.search-form');
+
+document.querySelector('#search-btn').onclick = () =>{
+    searchForm.classList.toggle('active');
+    cart.classList.remove('active');
+    loginForm.classList.remove('active');
+    navbar.classList.remove('active');
+}
+
+let loginForm = document.querySelector('.login-form');
+
+document.querySelector('#login-btn').onclick = () =>{
+    loginForm.classList.toggle('active');
+    searchForm.classList.remove('active');
+    cart.classList.remove('active');
+    navbar.classList.remove('active');
+}
+
 let navbar = document.querySelector('.navbar');
 
 document.querySelector('#menu-btn').onclick = () =>{

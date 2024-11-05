@@ -15,6 +15,8 @@ public class Transaction {
 	private String message;
 	private String receiverName;
     private String receiverUsername;
+    private String senderName;
+    private String senderUserName;
 	
 	public Transaction() {
         this.transactionId = generateTransactionId(); 
@@ -111,6 +113,25 @@ public class Transaction {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+
+	public String getSenderUserName() {
+		return senderUserName;
+	}
+
+	public void setSenderUserName(String senderUserName) {
+		this.senderUserName = senderUserName;
+	}
+
+	
+	
 	
 	
 }

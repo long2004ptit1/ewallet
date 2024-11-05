@@ -61,16 +61,19 @@ public class TransferServlet extends HttpServlet {
                         transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
                         transaction.setStatus("completed");
                         transaction.setMessage(message);
-
-                
+                        
+                        transaction.setReceiverUsername(receiverUsername);
+                        
                         transactionDAO.saveTransaction(transaction);
 
+                        session.setAttribute("transactionResult", transaction); // Lưu giao dịch hiện tại
 
                         List<Transaction> transactionHistory = transactionDAO.getTransactionHistory(sender.getId());
                         request.setAttribute("transactionHistory", transactionHistory); // Đưa lịch sử giao dịch vào request
-
-
-                        session.setAttribute("successMessage", "Chuyển tiền thành công!");
+                        
+                        response.sendRedirect("transfer_result.jsp");
+                        return;
+                        
                     } else {
 
                         session.setAttribute("errorMessage", "Số dư không đủ để thực hiện giao dịch.");
@@ -84,11 +87,12 @@ public class TransferServlet extends HttpServlet {
             e.printStackTrace();
             session.setAttribute("errorMessage", "Đã xảy ra lỗi trong quá trình chuyển tiền.");
         } finally {
-
-            response.sendRedirect("transfer.jsp");
+        	if (session.getAttribute("errorMessage") != null) {
+                response.sendRedirect("transfer.jsp");
         }
     }
 }
-
+	
+}
 
 

@@ -2,9 +2,9 @@ package com.user.servlet;
 
 import com.DAO.WithdrawDAOImpl;
 import com.DB.DBConnect;
-import com.DAO.WithdrawDAO; // Sử dụng interface
+import com.DAO.UserDAOImpl;
+import com.DAO.WithdrawDAO;
 import com.entity.Withdraw;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +25,6 @@ public class WithdrawServlet extends HttpServlet {
 
 		    // Kiểm tra xem userId có tồn tại trong session không
 		    if (userId == null) {
-		        session.setAttribute("errorMessage", "Vui lòng đăng nhập để thực hiện rút tiền.");
 		        response.sendRedirect("index.jsp");
 		        return;
 		    }
@@ -43,20 +42,32 @@ public class WithdrawServlet extends HttpServlet {
 	        
 	        
 	        try (Connection conn = DBConnect.getConn()) { 
-	            WithdrawDAO dao = new WithdrawDAOImpl(conn);
-	            boolean success = dao.addWithdrawRequest(withdrawRequest);
-	            if (success) {
-	                request.getSession().setAttribute("successMessage", "Yêu cầu rút tiền thành công!");
-	                response.sendRedirect("withdraw.jsp");
+	            UserDAOImpl userDao = new UserDAOImpl(conn);
+	            double currentBalance = userDao.getBalanceByUserId(userId);
+
+	            if (currentBalance >= amount) {
+	                WithdrawDAO withdrawDao = new WithdrawDAOImpl(conn);
+	                boolean success = withdrawDao.addWithdrawRequest(withdrawRequest);
+
+	                if (success) {
+	                    double newBalance = currentBalance - amount;
+	                    userDao.updateUserBalance(userId, newBalance);
+	                    
+	                    // Cập nhật số dư mới vào session
+	                    session.setAttribute("user_balance", userDao.getBalanceByUserId(userId));
+
+	                    session.setAttribute("successMessage", "Yêu cầu rút tiền thành công!");
+	                } else {
+	                    session.setAttribute("errorMessage", "Có lỗi xảy ra khi rút tiền. Vui lòng thử lại.");
+	                }
 	            } else {
-	                request.getSession().setAttribute("errorMessage", "Có lỗi xảy ra khi rút tiền. Vui lòng thử lại.");
-	                response.sendRedirect("withdraw.jsp");
+	                session.setAttribute("errorMessage", "Số dư không đủ để thực hiện giao dịch.");
 	            }
+
+	            response.sendRedirect("withdraw.jsp");
+
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	            request.getSession().setAttribute("errorMessage", "Lỗi khi xử lý yêu cầu.");
-	            response.sendRedirect("withdraw.jsp");
 	        }
-        
-    }
-}
+	    }
+	}

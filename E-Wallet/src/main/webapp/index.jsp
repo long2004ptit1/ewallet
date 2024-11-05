@@ -8,14 +8,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Trang chủ</title>
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="all_component/style.css">
-
 </head>
 <body>
     
@@ -23,7 +22,7 @@
 
 <header class="header">
 
-    <a href="index.jsp" class="logo"> <i class="fas fa-shopping-basket"></i> E-WALLET </a>
+    <a href="index.jsp" class="logo"> <i class='fas fa-wallet' style='font-size:36px'></i>  E-WALLET </a>
 
     <nav class="navbar">
         <a href="index.jsp">Trang chủ</a>
@@ -31,7 +30,7 @@
         <a href="withdraw.jsp">Rút tiền</a>
         <a href="deposit.jsp">Nạp tiền</a>
         <a href="history.jsp">Lịch sử giao dịch</a>
-        <a href="contact.html">Đầu tư</a>
+        
         <a href="infor_user.jsp">Thông tin cá nhân</a>
     </nav>
 
@@ -48,12 +47,12 @@
 
  	<c:if test="${not empty failMsg}">
 				<h1 style="color:red;
-    text-align: center; /* Căn giữa nội dung */
-    font-weight: bold; /* Đậm hơn để nổi bật */
+    text-align: center;
+    font-weight: bold; 
     position: fixed;
     top: 10%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Căn giữa cả chiều ngang và dọc */
+    transform: translate(-50%, -50%);
     padding: 20px;">${failMsg}</h1>
 				<c:remove var="failMsg" scope="session"/>
 				</c:if>
@@ -87,11 +86,11 @@
                 <a href="#" class="btn">shop now</a>
             </div>
             <div class="image">
-                <img src="image/home-img-1.png" alt="">
+        <img src="image/pic.png" alt=""> 
             </div>
         </div>
 
-        <div class="slide">
+        <!-- <div class="slide">
             <div class="content">
                 <span>fresh and organic</span>
                 <h3>upto 50% off</h3>
@@ -111,7 +110,7 @@
             <div class="image">
                 <img src="image/home-img-3.png" alt="">
             </div>
-        </div>
+        </div> -->
 
     </div>
 
@@ -120,7 +119,7 @@
 
 </section>
 
-<section class="banner-container">
+<!-- <section class="banner-container">
 
     <div class="banner">
         <img src="image/banner-1.jpg" alt="">
@@ -149,27 +148,7 @@
         </div>
     </div>
 
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</section> -->
 
 <!-- footer section starts  -->
 
@@ -222,17 +201,6 @@
 <section class="credit">created by mr. web designer | all rights reserved!</section>
 
 <!-- footer section ends -->
-
-
-
-
-
-
-
-
-
-
-
 
 
 <!-- custom css file link  -->
