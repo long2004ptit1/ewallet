@@ -15,6 +15,18 @@
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="all_component/style.css">
+    <style type="text/css">
+  	body {
+	background-color: #d0f5be; 
+	}
+	/* Right-aligned image class */
+.right-aligned-image {
+    float: right;
+    width: 300px; /* Adjust width as needed */
+    height: 500px; /* Maintain aspect ratio */
+    margin-left: 20px; /* Adds spacing on the left */
+}
+   </style>
 </head>
 <body>
     
@@ -86,7 +98,7 @@
                 <a href="#" class="btn">shop now</a>
             </div>
             <div class="image">
-        <img src="image/pic.png" alt=""> 
+         <img src="image/anh2.png" alt="" class="right-aligned-image">
             </div>
         </div>
 

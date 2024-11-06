@@ -66,6 +66,16 @@
     background-color: #bac34e; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
+body {
+	background-color: #d0f5be; 
+}
+/* Right-aligned image class */
+    .right-aligned-image {
+        float: right;
+        width: 300px; /* Adjust width as needed */
+        height: 500px; /* Maintain aspect ratio */
+        margin-left: 20px; /* Adds spacing on the left */
+    }
 
     
     </style>
@@ -152,7 +162,7 @@
                 <a href="#" class="btn">shop now</a>
             </div>
             <div class="image">
-                <img src="image/pic.png" alt="">
+                <img src="image/anh2.png" alt="" class="right-aligned-image">
             </div>
         </div>
 
