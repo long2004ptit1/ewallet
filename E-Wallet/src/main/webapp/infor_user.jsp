@@ -5,7 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Thông Tin Tài Khoản</title>
+
+
+
 
 
 <style>
@@ -114,7 +117,10 @@
 	font-weight: bold;
 	margin-bottom: 20px;
 }
+
+
 </style>
+
 
 
 </head>
@@ -122,6 +128,9 @@
 	<div class="header-space">
 		<%@include file="all_component/header.jsp"%>
 	</div>
+
+<!-- Notification Display -->
+<div id="notification" class="notification"></div>
 
 	<div class="container">
 		<h2>THÔNG TIN TÀI KHOẢN</h2>
@@ -153,17 +162,10 @@
 				</tr>
 			</table>
 		</c:if>
+		
 		<div class="action-buttons">
-			<button class="edit-btn">Đổi thông tin cá nhân</button>
-			<button class="password-btn">Đổi mật khẩu</button>
-			<button class="delete-btn">Xoá tài khoản</button>
-		</div>
-	</div>
+    <button class="edit-btn">Đổi thông tin cá nhân</button>
+    <button class="password-btn" onclick="window.location.href='change_password.jsp'">Đổi mật khẩu</button>
+    <button class="delete-btn">Xoá tài khoản</button>
+</div>
 
-
-
-
-
-
-</body>
-</html>

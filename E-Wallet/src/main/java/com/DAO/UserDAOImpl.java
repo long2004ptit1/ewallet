@@ -197,7 +197,24 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
-
+    public boolean changePassword(int userId, String newPassword) {
+        boolean updated = false;
+        String sql = "UPDATE user SET password = ? WHERE id = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newPassword);
+            ps.setInt(2, userId);
+            
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                updated = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return updated;
+    }
 
 
 
