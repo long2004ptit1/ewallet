@@ -14,7 +14,102 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- custom css file link  -->
-    <link rel="stylesheet" href="all_component/style.css">
+<link rel="stylesheet" href="all_component/style.css"> 
+<style type="text/css">
+  	body {
+	background-color: #d0f5be; 
+	}
+	/* Right-aligned image class */
+.right-aligned-image {
+    float: right;
+    width: 300px; /* Adjust width as needed */
+    height: 500px; /* Maintain aspect ratio */
+    margin-left: 20px; /* Adds spacing on the left */
+}
+
+
+
+
+/* Chat container styles */
+h3{
+font-size:20px;
+}
+#chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* Chat icon button */
+#chat-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 24px;
+}
+
+/* Chat box styles */
+#chat-box {
+    display: none;
+    width: 300px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Chat history and input */
+#chat-history {
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    font-size: 16px;
+}
+
+#chat-input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+/* Style and effect for the send button */
+#chat-box button {
+    padding: 10px 20px;
+    font-size: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng chuyển màu và phóng to */
+}
+
+/* Hover effect */
+#chat-box button:hover {
+    background-color: #45a049; /* Thay đổi màu nền khi hover */
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+/* Active effect */
+#chat-box button:active {
+    transform: scale(0.95); /* Thu nhỏ nhẹ khi nhấn vào */
+}
+
+
+
+
+</style>
 </head>
 <body>
     
@@ -86,69 +181,30 @@
                 <a href="#" class="btn">shop now</a>
             </div>
             <div class="image">
-        <img src="image/pic.png" alt=""> 
+        <img src="image/img.png" alt="" class="right-aligned-image"> 
             </div>
         </div>
+       </div>
 
-        <!-- <div class="slide">
-            <div class="content">
-                <span>fresh and organic</span>
-                <h3>upto 50% off</h3>
-                <a href="#" class="btn">shop now</a>
-            </div>
-            <div class="image">
-                <img src="image/home-img-2.png" alt="">
-            </div>
-        </div>
-
-        <div class="slide">
-            <div class="content">
-                <span>fresh and organic</span>
-                <h3>upto 50% off</h3>
-                <a href="#" class="btn">shop now</a>
-            </div>
-            <div class="image">
-                <img src="image/home-img-3.png" alt="">
-            </div>
-        </div> -->
-
-    </div>
-
-    <div id="next-slide" class="fas fa-angle-right" onclick="next()"></div>
-    <div id="prev-slide" class="fas fa-angle-left" onclick="next()"></div>
+    
 
 </section>
 
-<!-- <section class="banner-container">
 
-    <div class="banner">
-        <img src="image/banner-1.jpg" alt="">
-        <div class="content">
-            <span>limited sales</span>
-            <h3>upto 50% off</h3>
-            <a href="#" class="btn">shop now</a>
-        </div>
+<!-- Chat Support Button and Chat Box -->
+<div id="chat-container">
+    <div id="chat-icon" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
     </div>
-
-    <div class="banner">
-        <img src="image/banner-2.jpg" alt="">
-        <div class="content">
-            <span>limited sales</span>
-            <h3>upto 50% off</h3>
-            <a href="#" class="btn">shop now</a>
-        </div>
+    <div id="chat-box">
+        <h3>Hỗ trợ nhanh</h3>
+        <div id="chat-history"></div>
+        <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." />
+        <button onclick="sendMessage()">Gửi</button>
     </div>
+</div>
 
-    <div class="banner">
-        <img src="image/banner-3.jpg" alt="">
-        <div class="content">
-            <span>limited sales</span>
-            <h3>upto 50% off</h3>
-            <a href="#" class="btn">shop now</a>
-        </div>
-    </div>
 
-</section> -->
 
 <!-- footer section starts  -->
 
@@ -238,20 +294,36 @@ window.onscroll = () =>{
     navbar.classList.remove('active');
 }
 
-let slides = document.querySelectorAll('.home .slides-container .slide');
-let index = 0;
-
-function next(){
-    slides[index].classList.remove('active');
-    index = (index + 1) % slides.length;
-    slides[index].classList.add('active');
+function toggleChat() {
+    var chatBox = document.getElementById("chat-box");
+    if (chatBox.style.display === "none" || chatBox.style.display === "") {
+        chatBox.style.display = "block";
+    } else {
+        chatBox.style.display = "none";
+    }
 }
 
-function prev(){
-    slides[index].classList.remove('active');
-    index = (index - 1 + slides.length) % slides.length;
-    slides[index].classList.add('active');
-}</script>
+function sendMessage() {
+    var message = document.getElementById("chat-input").value;
+    var chatHistory = document.getElementById("chat-history");
+
+    // Display the message in the chat history
+    var messageElement = document.createElement("div");
+    messageElement.textContent = "Bạn: " + message;
+    chatHistory.appendChild(messageElement);
+
+    // Clear the input
+    document.getElementById("chat-input").value = "";
+
+    // Auto-scroll to the bottom of the chat history
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+}
+
+
+
+
+
+</script>
 
 </body>
 </html>

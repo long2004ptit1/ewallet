@@ -60,13 +60,23 @@
     color: white;
     background-color: #f44336;
     margin-top: 5px; 
-    font-weight: bold;
+    font-weight: bold;																		
 }
 .logout:hover {
     background-color: #bac34e; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
+body {
+	background-color: #d0f5be; 
+	}
+	/* Right-aligned image class */
+.right-aligned-image {
+    float: right;
+    width: 300px; /* Adjust width as needed */
+    height: 500px; /* Maintain aspect ratio */
+    margin-left: 20px; /* Adds spacing on the left */
+}
     
     </style>
 
@@ -81,10 +91,14 @@
 
     <nav class="navbar">
         <a href="home.jsp">Trang chủ</a>
-        <a href="user_list.jsp">DS người dùng</a>
+        
         <a href="admin_list.jsp">DS admin</a>
+        
+        <a href="user_list.jsp">DS khách hàng</a>
+        
         <a href="deposit_requests.jsp">YC Nạp tiền</a>
         <a href="withdraw_requests.jsp">YC Rút tiền</a>
+        <a href="withdraw_requests.jsp">Hỗ trợ KH</a>
         <a href="infor_user.jsp">Lịch sử</a>
     </nav>
 
@@ -151,7 +165,7 @@
                 <a href="#" class="btn">shop now</a>
             </div>
             <div class="image">
-                <img src="image/home-img-1.png" alt="">
+                <img src="image/img.png" alt="" class="right-aligned-image"> 
             </div>
         </div>
 
@@ -217,27 +231,7 @@ document.querySelector('#menu-btn').onclick = () =>{
     loginForm.classList.remove('active');
 }
 
-window.onscroll = () =>{
-    searchForm.classList.remove('active');
-    cart.classList.remove('active');
-    loginForm.classList.remove('active');
-    navbar.classList.remove('active');
-}
-
-let slides = document.querySelectorAll('.home .slides-container .slide');
-let index = 0;
-
-function next(){
-    slides[index].classList.remove('active');
-    index = (index + 1) % slides.length;
-    slides[index].classList.add('active');
-}
-
-function prev(){
-    slides[index].classList.remove('active');
-    index = (index - 1 + slides.length) % slides.length;
-    slides[index].classList.add('active');
-}</script>
+</script>
 
 </body>
 </html>

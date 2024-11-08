@@ -1,7 +1,7 @@
-<%@page import="com.entity.User"%>
+<%@page import="com.entity.Admin"%>
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
-<%@page import="com.DAO.UserDAOImpl"%>
+<%@page import="com.DAO.AdminDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -94,7 +94,7 @@
  <%@include file="header.jsp"%>
     </div>
 <div class="history-table">
-			<h2>Danh sách khách hàng</h2>
+			<h2>Danh sách admin</h2>
 			<table>
 			<thead>
 				<tr>
@@ -105,7 +105,7 @@
 					<th>Email</th>
 					<th>Số điện thoại</th>
 					<th>Mật khẩu</th>
-					<th>Số dư</th>
+					<th>Vai trò</th>
 					<th>Thời gian tạo</th>
 					<th>Thao tác</th>
 				</tr>
@@ -113,21 +113,21 @@
 				<tbody>
 				<tr>
 				       <%
-			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
-			List<User> list = dao.getAllUsers();
-			for (User user : list) {
+			AdminDAOImpl dao = new AdminDAOImpl(DBConnect.getConn());
+			List<Admin> list = dao.getAllAdmins();
+			for (Admin admin : list) {
 		%>
 		<tr>
-			<td><%=user.getId()%></td>
-			<td><%=user.getName()%></td>
-			<td><%=user.getUserName()%></td>
-			<td><%=user.getEmail()%></td>
-			<td><%=user.getPhone()%></td>
-			<td><%=user.getPassword()%></td>
-			<td><%= user.getFormattedBalance()+" VNĐ" %></td>
-			 <td><%= user.getCreatedAt() %></td>
+			<td><%=admin.getId()%></td>
+			<td><%=admin.getName()%></td>
+			<td><%=admin.getUserName()%></td>
+			<td><%=admin.getEmail()%></td>
+			<td><%=admin.getPhone()%></td>
+			<td><%=admin.getPassword()%></td>
+			<td><%= admin.getRole() %></td>
+			<td><%= admin.getCreatedAt() %></td>
 			<td><a href="" class="button btn-approve">Chỉnh sửa</a> <a
-				href="#" class="button btn-reject" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">Xóa</a></td>
+				href="#" class="button btn-reject" onclick="return confirm('Bạn có chắc chắn muốn xóa admin này không?');">Xóa</a></td>
 
 
 		</tr>

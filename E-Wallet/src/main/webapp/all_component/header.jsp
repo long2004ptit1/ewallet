@@ -99,7 +99,7 @@
         <a href="transfer.jsp">Chuyển tiền</a>
         <a href="withdraw.jsp">Rút tiền</a>
         <a href="deposit.jsp">Nạp tiền</a>
-        <a href="history.jsp">Lịch sử</a>
+        <a href="history.jsp">Lịch sử giao dịch</a>
         <a href="infor_user.jsp">Thông tin cá nhân</a>
     </nav>
 
