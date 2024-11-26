@@ -96,8 +96,9 @@
 
     <nav class="navbar">
         <a href="home.jsp">Trang chủ</a>
-        <a href="user_list.jsp">DS người dùng</a>
+        
         <a href="admin_list.jsp">DS admin</a>
+        <a href="user_list.jsp">DS khách hàng</a>
         <a href="deposit_requests.jsp">YC Nạp tiền</a>
         <a href="withdraw_requests.jsp">YC Rút tiền</a>
         <a href="infor_user.jsp">Lịch sử</a>

@@ -14,8 +14,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>h2 {
+<style>
+h2 {
 	padding: 20px;
+	font-size: 20px;
 }
 
 .history-table {
@@ -44,10 +46,55 @@
 
 .history-table th {
 	background-color: #f2f2f2;
-}</style>
+}
+
+/*button  */
+
+button {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-approve {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-approve:hover {
+    background-color: #45a049;
+}
+
+.btn-reject {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-reject:hover {
+    background-color: #d32f2f;
+}
+
+/* Add space for header */
+        .header-space {
+            height: 80px;
+            background-color: #f1f1f1;
+            text-align: center;
+            line-height: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+</style>
 </head>
 <body>
-<%@include file="header.jsp"%>
+<!-- Header placeholder -->
+    <div class="header-space">
+ <%@include file="header.jsp"%>
+    </div>
 <div class="history-table">
 			<c:if test="${not empty successMessage}">
 							<p style="color:green; text-align:center;font-weight: bold; font-size:20px;">${successMessage}</p>
@@ -65,7 +112,7 @@
 					<th>Mã đơn</th>
 					<th>UserId</th>
 					<th>Tên đăng nhập</th>
-					<th>Số tiền nạp</th>
+					<th>Số tiền rút</th>
 					<th>Cổng thanh toán</th>
 					<th>Số tài khoản</th>
 					<th>Tên tài khoản</th>
@@ -101,11 +148,11 @@
                 <td>
                     <form action="../withdraw_requests" method="post" style="display:inline;">
                         <input type="hidden" name="transaction_id" value="<%= req.getTransactionId() %>">
-                        <button type="submit" name="action" value="approve" class="btn btn-sm btn-primary">Xác nhận</button>
+                        <button type="submit" name="action" value="approve" class="btn-approve">Xác nhận</button>
                     </form>
                     <form action="../withdraw_requests" method="post" style="display:inline;">
                         <input type="hidden" name="transaction_id" value="<%= req.getTransactionId() %>">
-                        <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger">Từ chối</button>
+                        <button type="submit" name="action" value="reject" class="btn-reject">Từ chối</button>
                     </form>
                 </td>
             </tr>

@@ -63,6 +63,17 @@
     font-size: 14px;
     color: #dcdcdc;
 }
+
+.notification-icon {
+    color: #FFD700; /* Màu vàng để biểu thị thông báo */
+    font-size: 20px; /* Kích thước icon */
+    margin-left: 5px; /* Khoảng cách giữa icon và tên */
+    cursor: pointer; /* Con trỏ hiển thị như nút bấm */
+}
+
+.notification-icon:hover {
+    color: #FFA500; /* Màu khi hover */
+}
 /* Nút đăng xuất */
 .logout {
     padding: 3px 6px;
@@ -99,7 +110,7 @@
         <a href="transfer.jsp">Chuyển tiền</a>
         <a href="withdraw.jsp">Rút tiền</a>
         <a href="deposit.jsp">Nạp tiền</a>
-        <a href="history.jsp">Lịch sử</a>
+        <a href="history.jsp">Lịch sử giao dịch</a>
         <a href="infor_user.jsp">Thông tin cá nhân</a>
     </nav>
 
@@ -116,6 +127,7 @@
             </div>
 			
         </div>	
+        <span class="notification-icon fas fa-bell"></span>
          <a href="logout" class="logout"">Đăng xuất</a> 
     </c:if>
 

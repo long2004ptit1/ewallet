@@ -47,27 +47,22 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<Transaction> getTransactionHistory(int userId) {
         List<Transaction> transactions = new ArrayList<>();
-        String sql = "SELECT t.transaction_id, t.amount, u.name AS receiver_name, u.username AS receiver_username, " +
-                "t.transaction_date, t.status, t.message " +
+        String sql = "SELECT t.transaction_id, t.amount, " +
+                "       receiver.name AS receiver_name, receiver.username AS receiver_username, " +
+                "       t.transaction_date, t.status, t.message " +
                 "FROM transactions t " +
-                "JOIN user u ON t.receiver_id = u.id " +
-                "WHERE t.sender_id = ? OR t.receiver_id = ? " +
+                "JOIN user receiver ON t.receiver_id = receiver.id " +
+                "WHERE t.sender_id = ? " + // Chỉ lấy giao dịch mà user là sender
                 "ORDER BY t.transaction_date DESC";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
-            ps.setInt(2, userId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Transaction transaction = new Transaction();
                 transaction.setTransactionId(rs.getString("transaction_id")); 
-                transaction.setAmount(rs.getDouble("amount")); 
-                
-/*             // Thiết lập thông tin người gửi
-                transaction.setSenderName(rs.getString("sender_name"));
-                transaction.setSenderUserName(rs.getString("sender_username"));*/
-                
+                transaction.setAmount(rs.getDouble("amount"));                         
                 transaction.setReceiverName(rs.getString("receiver_name"));
                 transaction.setReceiverUsername(rs.getString("receiver_username")); 
 
@@ -82,4 +77,37 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
         return transactions;
 }
+	@Override
+	public List<Transaction> getReceivedTransactions(int userId) {
+	    List<Transaction> transactions = new ArrayList<>();
+	    String sql = "SELECT t.transaction_id, t.amount, " +
+	                 "       sender.name AS sender_name, sender.username AS sender_username, " +
+	                 "       t.transaction_date, t.status, t.message " +
+	                 "FROM transactions t " +
+	                 "JOIN user sender ON t.sender_id = sender.id " +
+	                 "WHERE t.receiver_id = ? " +
+	                 "ORDER BY t.transaction_date DESC";
+
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, userId);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            Transaction transaction = new Transaction();
+	            transaction.setTransactionId(rs.getString("transaction_id"));
+	            transaction.setAmount(rs.getDouble("amount"));
+	            transaction.setSenderName(rs.getString("sender_name"));
+	            transaction.setSenderUserName(rs.getString("sender_username"));
+	            transaction.setTransactionDate(rs.getTimestamp("transaction_date"));
+	            transaction.setStatus(rs.getString("status"));
+	            transaction.setMessage(rs.getString("message"));
+
+	            transactions.add(transaction);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return transactions;
+	}
+
 }
