@@ -36,12 +36,13 @@ public class WithdrawRequestServlet extends HttpServlet {
             WithdrawDAO dao = new WithdrawDAOImpl(conn);
             boolean success = dao.updateRequestStatus(transactionId, newStatus,approvedAt); 
             if (success) {
-/*            	Withdraw requestData = new Withdraw(); // Tạo đối tượng Withdraw mới để ghi lại lịch sử
-                requestData.setTransactionId(transactionId);
-                dao.logWithdrawHistory(requestData, newStatus, approvedAt);*/
-            	
-            	
-                request.getSession().setAttribute("successMessage", "Yêu cầu rút tiền đã được " + (newStatus.equals("Approved") ? "xác nhận" : "từ chối") + "!");
+                if ("Approved".equals(newStatus)) {
+                    session.setAttribute("successMessage", "Yêu cầu rút tiền đã được xác nhận!");
+                    session.setAttribute("messageType", "success");
+                } else {
+                    session.setAttribute("errorMessage", "Yêu cầu rút tiền đã bị từ chối!");
+                    session.setAttribute("messageType", "error");
+                }
 
             } else {
                 request.getSession().setAttribute("errorMessage", "Có lỗi xảy ra khi cập nhật trạng thái.");
@@ -49,7 +50,6 @@ public class WithdrawRequestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.getSession().setAttribute("errorMessage", "Lỗi khi xử lý yêu cầu.");
         }
 
         response.sendRedirect("admin/withdraw_requests.jsp");

@@ -70,13 +70,6 @@
 	font-size: 14px;
 }
 
-.verify-link {
-	color: #007bff;
-	text-decoration: none;
-	font-size: 14px;
-	margin-left: 10px;
-}
-
 .action-buttons {
 	text-align: center;
 	margin-top: 20px;

@@ -51,6 +51,19 @@
     font-size: 14px;
     color: #dcdcdc;
 }
+
+.notification-icon {
+    color: #FFD700; /* Màu vàng để biểu thị thông báo */
+    font-size: 20px; /* Kích thước icon */
+    margin-left: 5px; /* Khoảng cách giữa icon và tên */
+    cursor: pointer; /* Con trỏ hiển thị như nút bấm */
+}
+
+.notification-icon:hover {
+    color: #FFA500; /* Màu khi hover */
+}
+
+
 /* Nút đăng xuất */
 .logout {
     padding: 5px 10px;
@@ -184,9 +197,11 @@ font-size:20px;
 
             <div class="user-details">
                 <span class="name">${userobj.name}</span>
+                 
                 <span class="balance">Số dư: ${userobj.formattedBalance} Đ</span>
             </div>
         </div>
+        <span class="notification-icon fas fa-bell"></span>
  <a href="logout" class="logout"">Đăng xuất</a> 
     </c:if>
 
