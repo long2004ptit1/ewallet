@@ -12,7 +12,7 @@ import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 public class UserDAOImpl implements UserDAO {
 	private Connection conn;
-//generate constructor using filed
+
 	public UserDAOImpl(Connection conn) {
 		super();
 		this.conn = conn;
