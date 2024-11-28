@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- custom css file link  -->
-<link rel="stylesheet" href="all_component/style.css"> 
-<style type="text/css">
+
+    <link rel="stylesheet" href="all_component/style.css">
+    <style type="text/css">
   	body {
 	background-color: #d0f5be; 
 	}
@@ -26,6 +27,7 @@
     height: 500px; /* Maintain aspect ratio */
     margin-left: 20px; /* Adds spacing on the left */
 }
+
 
 
 
@@ -110,6 +112,8 @@ font-size:20px;
 
 
 </style>
+   </style>
+
 </head>
 <body>
     
@@ -181,7 +185,9 @@ font-size:20px;
                 <a href="#" class="btn">shop now</a>
             </div>
             <div class="image">
+
         <img src="image/img.png" alt="" class="right-aligned-image"> 
+
             </div>
         </div>
        </div>
