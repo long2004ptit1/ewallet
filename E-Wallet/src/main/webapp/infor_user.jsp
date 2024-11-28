@@ -139,7 +139,7 @@
 				</tr>
 				<tr>
 					<td>Số dư:</td>
-					<td >${userobj.formattedBalance}VND</td>
+					<td >${userobj.formattedBalance} VND</td>
 				</tr>
 				<tr>
 					<td>Email:</td>
@@ -157,7 +157,7 @@
 		</c:if>
 		
 		<div class="action-buttons">
-    <button class="edit-btn">Đổi thông tin cá nhân</button>
+    <button class="edit-btn" onclick="window.location.href='change_infor.jsp'">Đổi thông tin cá nhân</button>
     <button class="password-btn" onclick="window.location.href='change_password.jsp'">Đổi mật khẩu</button>
     <button class="delete-btn">Xoá tài khoản</button>
 </div>

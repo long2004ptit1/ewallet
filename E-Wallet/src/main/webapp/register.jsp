@@ -106,7 +106,7 @@ h1 {
 		<%@include file="all_component/header.jsp"%>
 	</div>
 
-<form action="register" method="post">
+<form action="register" method="post" accept-charset="UTF-8">
 	<h1> Đăng ký</h1>
 	<c:if test="${not empty succMsg}">
 							<p style="color:green; text-align:center;font-weight: bold;">${succMsg}</p>
