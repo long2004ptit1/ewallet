@@ -22,6 +22,11 @@ import com.entity.User;
 @WebServlet("/transfer")
 public class TransferServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// Thiết lập encoding cho request và response
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        
 	    String receiverUsername = request.getParameter("receiver");
 	    String amountStr = request.getParameter("amount");
 	    String message = request.getParameter("message");

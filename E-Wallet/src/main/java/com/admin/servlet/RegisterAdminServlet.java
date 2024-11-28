@@ -16,6 +16,10 @@ public class RegisterAdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+        	
+        	// Thiết lập encoding cho request và response
+            req.setCharacterEncoding("UTF-8");
+            resp.setCharacterEncoding("UTF-8");
             // Lấy thông tin từ form
             String name = req.getParameter("name");
             String username = req.getParameter("username");
