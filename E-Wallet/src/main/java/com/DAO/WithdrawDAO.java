@@ -10,5 +10,6 @@ public interface WithdrawDAO {
     List<Withdraw> getPendingRequests();
     List<Withdraw> getProcessedRequests();
     boolean updateRequestStatus(String transactionId, String newStatus, Timestamp approvedAt);
+	List<Withdraw> getWithdrawRequestsByUserId(int userId);
 
 }

@@ -118,7 +118,7 @@
             
             <div class="action-buttons">
                 <button type="submit" class="save-btn">Lưu thay đổi</button>
-                <button type="button" class="cancel-btn" onclick="window.location.href='inforUser.jsp'">Hủy bỏ</button>
+                <button type="button" class="cancel-btn" onclick="window.location.href='infor_user.jsp'">Hủy bỏ</button>
             </div>
         </form>
     </div>

@@ -112,7 +112,6 @@ font-size:20px;
 
 
 </style>
-   </style>
 
 </head>
 <body>

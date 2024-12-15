@@ -100,5 +100,37 @@ public class WithdrawDAOImpl implements WithdrawDAO {
         }
         return requests;
     }
+    
+    @Override
+    public List<Withdraw> getWithdrawRequestsByUserId(int userId) {
+        List<Withdraw> requests = new ArrayList<>();
+        String sql = "SELECT w.*, u.username FROM withdraw w " +
+                     "JOIN user u ON w.user_id = u.id " +
+                     "WHERE w.user_id = ?"; // Lọc theo user_id
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId); // Gán giá trị userId vào câu lệnh SQL
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Withdraw request = new Withdraw();
+                    request.setTransactionId(rs.getString("transaction_id"));
+                    request.setUserId(rs.getInt("user_id"));
+                    request.setUserName(rs.getString("username"));
+                    request.setAmount(rs.getDouble("amount"));
+                    request.setPaymentMethod(rs.getString("payment_method"));
+                    request.setAccountNumber(rs.getString("account_number"));
+                    request.setAccountName(rs.getString("account_name"));
+                    request.setStatus(rs.getString("status"));
+                    request.setCreatedAt(rs.getTimestamp("created_at"));
+                    request.setApprovedAt(rs.getTimestamp("approved_at"));
+                    requests.add(request);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
+
+    
 
 }
