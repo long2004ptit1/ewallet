@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.entity.Transaction;
 
@@ -109,5 +111,23 @@ public class TransactionDAOImpl implements TransactionDAO {
 	    }
 	    return transactions;
 	}
+	
+	@Override
+	public Map<String, Integer> getTransactionStatsByDate() {
+		    Map<String, Integer> stats = new TreeMap<>(); // TreeMap để sắp xếp theo ngày
+		    String sql = "SELECT DATE(transaction_date) AS date, COUNT(*) AS total FROM transactions GROUP BY DATE(transaction_date)";
 
+		    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+		        ResultSet rs = ps.executeQuery();
+		        while (rs.next()) {
+		            stats.put(rs.getString("date"), rs.getInt("total"));
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    return stats;
+		}
+	
 }
+
+

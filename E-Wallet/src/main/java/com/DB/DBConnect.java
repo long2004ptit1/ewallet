@@ -27,7 +27,7 @@ public class DBConnect {
 
     private static final String URL = "jdbc:mysql://localhost:3306/ewallet?useUnicode=true&characterEncoding=UTF-8";
     private static final String USER = "root";
-    private static final String PASSWORD = "Thanhlong@2004.nt";
+    private static final String PASSWORD = "huy26012004";
 
     public static Connection getConn() throws SQLException {
         try {
