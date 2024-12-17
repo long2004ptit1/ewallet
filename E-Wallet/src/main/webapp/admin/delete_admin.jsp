@@ -10,7 +10,7 @@
 
     if (adminId != null && !adminId.isEmpty()) {
         int id = Integer.parseInt(adminId);  // Chuyển ID sang kiểu số nguyên
-        AdminDAOImpl dao = new AdminDAOImpl();
+        AdminDAOImpl dao = new AdminDAOImpl();	
         
         try {
             // Gọi phương thức để xóa admin theo ID

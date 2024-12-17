@@ -41,7 +41,7 @@ public class RegisterAdminServlet extends HttpServlet {
             HttpSession session = req.getSession();
 
             // Tạo đối tượng DAO
-            AdminDAOImpl dao = new AdminDAOImpl(DBConnect.getConn());
+            AdminDAOImpl dao = new AdminDAOImpl();
 
             // Kiểm tra sự tồn tại của username, email, và phone
             if (dao.checkUsernameExists(username)) {

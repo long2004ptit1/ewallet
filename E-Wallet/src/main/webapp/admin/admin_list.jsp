@@ -113,7 +113,7 @@
 				<tbody>
 				<tr>
 				       <%
-			AdminDAOImpl dao = new AdminDAOImpl(DBConnect.getConn());
+			AdminDAOImpl dao = new AdminDAOImpl();
 			List<Admin> list = dao.getAllAdmins();
 			for (Admin admin : list) {
 		%>
@@ -126,9 +126,11 @@
 			<td><%=admin.getPassword()%></td>
 			<td><%= admin.getRole() %></td>
 			<td><%= admin.getCreatedAt() %></td>
-			<td><a href="" class="button btn-approve">Chỉnh sửa</a> <a
-				href="#" class="button btn-reject" onclick="return confirm('Bạn có chắc chắn muốn xóa admin này không?');">Xóa</a></td>
-
+			 <td>
+                        <a href="edit_admin.jsp?id=<%=admin.getId()%>" class="button btn-approve">Chỉnh sửa</a>
+                        <a href="delete_admin.jsp?id=<%=admin.getId()%>" class="button btn-reject" 
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa admin này không?');">Xóa</a>
+                    </td>
 
 		</tr>
 		<%
