@@ -150,6 +150,21 @@
 
     <div class="container">
         <h1>Tạo yêu cầu nạp tiền</h1>
+        
+        <c:if test="${not empty successMessage}">
+			<p
+				style="color: green; text-align: center; font-weight: bold; font-size: 20px;">${successMessage}</p>
+			<c:remove var="successMessage" scope="session" />
+			<!-- xoa thong bao cu -->
+		</c:if>
+
+		<c:if test="${not empty errorMessage}">
+			<p
+				style="color: red; text-align: center; font-weight: bold; font-size: 20px;">${errorMessage}</p>
+			<c:remove var="errorMessage" scope="session" />
+			<!-- xoa thong bao cu -->
+		</c:if>
+		
         <div class="deposit-form">
             <div class="form-left">
                 <p>Số dư quỹ: <span style="color: green;">${userobj.formattedBalance} VND</span></p>
@@ -161,14 +176,15 @@
 
                 <label for="payment_method">Cổng thanh toán:</label>
                 <select name="payment_method" id="payment_method">
+                <option value="">Chọn cổng thanh toán</option>
                     <option value="momo">MOMO</option>
                     <option value="techcombank">TECHCOMBANK</option>
                 </select>
                 
                 <label for="amount">Số tài khoản</label>
-                <input type="number" id="account_number" name="account_number" readonly placeholder="0977735502">
+                <input type="number" id="account_number" name="account_number" readonly >
                 <label for="amount">Tên tài khoản</label>
-                <input type="text" id="account_name" name="account_name" readonly placeholder="VU THANH LONG">
+                <input type="text" id="account_name" name="account_name" readonly >
                 
                 
 

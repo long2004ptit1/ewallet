@@ -1,9 +1,9 @@
-<%@page import="com.entity.Withdraw"%>
+<%@page import="com.entity.Deposit"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
-<%@page import="com.DAO.WithdrawDAOImpl"%>
+<%@page import="com.DAO.DepositDAOImpl"%>
 <!DOCTYPE html>
 
 
@@ -63,7 +63,7 @@ h2 {
 	</div>
 	<div class="history-table">
 
-		<h2>Lịch sử rút tiền</h2>
+		<h2>Lịch sử nạp tiền</h2>
 		<table>
 			<thead>
 				<tr>
@@ -82,11 +82,11 @@ h2 {
 			</thead>
 			<tbody>
 				<%
-				WithdrawDAOImpl withdrawDao = new WithdrawDAOImpl(DBConnect.getConn());
-				List<Withdraw> withdrawHistory = withdrawDao.getAllRequests(); // Lấy lịch sử yêu cầu
+				DepositDAOImpl DepositDao = new DepositDAOImpl(DBConnect.getConn());
+				List<Deposit> DepositHistory = DepositDao.getAllRequests(); // Lấy lịch sử yêu cầu
 
-				if (withdrawHistory != null && !withdrawHistory.isEmpty()) {
-					for (Withdraw req : withdrawHistory) {
+				if (DepositHistory != null && !DepositHistory.isEmpty()) {
+					for (Deposit req : DepositHistory) {
 				%>
 				<tr>
 					<td><%=req.getTransactionId()%></td>
