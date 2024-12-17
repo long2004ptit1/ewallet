@@ -1,5 +1,14 @@
 package com.DAO;
 
-public class DepositDAO {
+import java.sql.Timestamp;
+import java.util.List;
 
+import com.entity.Deposit;
+
+public interface DepositDAO {
+	boolean addDepositRequest(Deposit request);
+    List<Deposit> getPendingRequests();
+    List<Deposit> getAllRequests();
+    boolean updateRequestStatus(String transactionId, String newStatus, Timestamp approvedAt);
+    List<Deposit> getDepositRequestsByUserId(int userId);
 }
