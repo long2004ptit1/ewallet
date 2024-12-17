@@ -11,36 +11,58 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.DAO.DepositDAOImpl;
+import com.DAO.DepositDAO;
+import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
+import com.entity.Deposit;
 
 @WebServlet("/deposit")
 public class DepositServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userId = request.getParameter("user_id");  // ID của người dùng, lấy từ session hoặc hidden input
-        double amount = Double.parseDouble(request.getParameter("amount"));
-        String paymentMethod = request.getParameter("payment_method");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		// Lấy userId từ session
+		Integer userId = (Integer) session.getAttribute("user_id");
 
-        // Tạo mã giao dịch duy nhất
-        String requestId = UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
+		double amount = Double.parseDouble(request.getParameter("amount"));
+		String paymentMethod = request.getParameter("payment_method");
+		String accountNumber = request.getParameter("account_number");
+		String accountName = request.getParameter("account_name");
+		
+		Deposit depositRequest = new Deposit();
+		depositRequest.setUserId(userId);
+		depositRequest.setAmount(amount);
+		depositRequest.setPaymentMethod(paymentMethod);
+		depositRequest.setAccountNumber(accountNumber);
+		depositRequest.setAccountName(accountName);
+		
+		try (Connection conn = DBConnect.getConn()) { 
+            UserDAOImpl userDao = new UserDAOImpl(conn);
+            double currentBalance = userDao.getBalanceByUserId(userId);
 
-        try (Connection conn = DBConnect.getConn()) {
-            String sql = "INSERT INTO deposit_requests (request_id, user_id, amount, payment_method, status) VALUES (?, ?, ?, ?, 'pending')";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, requestId);
-            ps.setString(2,userId);
-            ps.setDouble(3, amount);
-            ps.setString(4, paymentMethod);
-            ps.executeUpdate();
 
-            // Gửi thông báo thành công
-            request.setAttribute("message", "Yêu cầu nạp tiền đã được gửi. Mã giao dịch: " + requestId);
-            request.getRequestDispatcher("deposit.jsp").forward(request, response);
-        } catch (SQLException e) {
+                DepositDAO depositDAO = new DepositDAOImpl(conn);
+                boolean success = depositDAO.addDepositRequest(depositRequest);
+
+                if (success) {
+                    double newBalance = currentBalance - amount;
+                    userDao.updateUserBalance(userId, newBalance);
+                    
+                    // Cập nhật số dư mới vào session
+                    session.setAttribute("user_balance", userDao.getBalanceByUserId(userId));
+
+                    session.setAttribute("successMessage", "Yêu cầu nạp tiền thành công!");
+                } else {
+                    session.setAttribute("errorMessage", "Có lỗi xảy ra khi nạp tiền. Vui lòng thử lại.");
+                }
+            
+
+            response.sendRedirect("deposit.jsp");
+
+        } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Đã xảy ra lỗi. Vui lòng thử lại.");
-            request.getRequestDispatcher("deposit.jsp").forward(request, response);
         }
-
-    }
+	}
 }

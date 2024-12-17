@@ -74,11 +74,10 @@ public class WithdrawDAOImpl implements WithdrawDAO {
     }
 
     @Override
-    public List<Withdraw> getProcessedRequests() {
+    public List<Withdraw> getAllRequests() {
         List<Withdraw> requests = new ArrayList<>();
         String sql = "SELECT w.*, u.username FROM withdraw w " +
-                "JOIN user u ON w.user_id = u.id " +
-                "WHERE w.status IN ('Approved', 'Rejected')";
+                "JOIN user u ON w.user_id = u.id ";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
