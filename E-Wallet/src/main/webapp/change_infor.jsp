@@ -105,7 +105,8 @@
     <div class="container">
         <h2>ĐỔI THÔNG TIN CÁ NHÂN</h2>
         
-        <form action="updateUserInfo" method="post">
+        <form action="${pageContext.request.contextPath}/updateUserInfo" method="post">
+
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" value="${userobj.email}" required>

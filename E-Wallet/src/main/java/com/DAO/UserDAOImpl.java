@@ -11,14 +11,12 @@ import com.entity.User;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 public class UserDAOImpl implements UserDAO {
-	private Connection conn;
+    private Connection conn;
 
-	public UserDAOImpl(Connection conn) {
-		super();
-		this.conn = conn;
-	}
-//overide/implement method
-	
+    // Constructor để truyền kết nối vào
+    public UserDAOImpl(Connection conn) {
+        this.conn = conn;
+    }
 	
 //Register
 	public boolean userRegister(User us) {
@@ -214,6 +212,24 @@ public class UserDAOImpl implements UserDAO {
         }
         
         return updated;
+    }
+
+
+    public boolean updateUserInfo(User user) {
+        boolean isUpdated = false;
+        String query = "UPDATE users SET email = ?, phone = ? WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) { // Sử dụng query thay vì sql
+
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getPhone());
+            ps.setInt(3, user.getId());
+
+            int rows = ps.executeUpdate();
+            isUpdated = rows > 0; // Kiểm tra nếu có dòng nào được cập nhật
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isUpdated;
     }
 
 
