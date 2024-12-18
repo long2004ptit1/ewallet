@@ -18,14 +18,14 @@ public class DepositDAOImpl implements DepositDAO {
 
     @Override
     public boolean addDepositRequest(Deposit request) {  
-        String sql = "INSERT INTO deposit (transaction_id, user_id, amount, payment_method, account_number, account_name, status) VALUES (?, ?, ?, ?, ?, ?, 'Pending')";
+        String sql = "INSERT INTO deposit (transaction_id, user_id, amount, account_number, status) VALUES (?, ?, ?, ?, ?, ?, 'Pending')";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, request.getTransactionId());
             stmt.setInt(2, request.getUserId());
             stmt.setDouble(3, request.getAmount());
-            stmt.setString(4, request.getPaymentMethod());
-            stmt.setString(5, request.getAccountNumber());
-            stmt.setString(6, request.getAccountName());
+            //stmt.setString(4, request.getPaymentMethod());
+            stmt.setString(4, request.getAccountNumber());
+            //stmt.setString(6, request.getAccountName());
 
             return stmt.executeUpdate() > 0;
         } catch (Exception e) {
@@ -37,8 +37,9 @@ public class DepositDAOImpl implements DepositDAO {
     @Override
     public List<Deposit> getPendingRequests() {  
         List<Deposit> requests = new ArrayList<>();  
-        String sql = "SELECT d.*, u.username FROM deposit d " +  
-                "JOIN user u ON d.user_id = u.id " +
+        String sql = "SELECT d.*, pm.name AS payment_method_name, pm.account_name " +
+                "FROM deposit d " +
+                "JOIN payment_methods pm ON d.account_number = pm.account_number " +
                 "WHERE d.status = 'Pending'";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -66,8 +67,9 @@ public class DepositDAOImpl implements DepositDAO {
     @Override
     public List<Deposit> getAllRequests() {  
         List<Deposit> requests = new ArrayList<>();  
-        String sql = "SELECT d.*, u.username FROM deposit d " +  
-                "JOIN user u ON d.user_id = u.id ";
+        String sql = "SELECT d.*, pm.name AS payment_method_name, pm.account_name " +
+                "FROM deposit d " +
+                "JOIN payment_methods pm ON d.account_number = pm.account_number";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -108,8 +110,9 @@ public class DepositDAOImpl implements DepositDAO {
     @Override
     public List<Deposit> getDepositRequestsByUserId(int userId) {  
         List<Deposit> requests = new ArrayList<>();
-        String sql = "SELECT d.*, u.username FROM deposit d " +  
-                "JOIN user u ON d.user_id = u.id " +
+        String sql = "SELECT d.*, pm.name AS payment_method_name, pm.account_name " +
+                "FROM deposit d " +
+                "JOIN payment_methods pm ON d.account_number = pm.account_number " +
                 "WHERE d.user_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);

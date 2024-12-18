@@ -1,3 +1,5 @@
+<%@page import="com.entity.Deposit"%>
+<%@page import="com.DAO.DepositDAOImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -218,24 +220,82 @@
         <div class="history-table">
             <h2>Lịch sử nạp tiền</h2>
             <table>
-                <tr>
-                    <th>Mã đơn</th>
-                    <th>Nạp vào quỹ</th>
-                    <th>Số tiền</th>
-                    <th>Cổng thanh toán</th>
-                    <th>Ngày tạo</th>
-                    <th>Trạng thái</th>
-                    <th>Thao tác</th>
-                </tr>
-                <tr>
-                    <td>D671A7BD8CFEE9</td>
-                    <td>VND</td>
-                    <td>+100,000đ</td>
-                    <td>ACB - NH TMCP A CHAU</td>
-                    <td>24-10-2024 23:54</td>
-                    <td style="color: red;">Đã hủy</td>
-                    <td><button>Xem</button></td>
-                </tr>
+                <thead>
+					<tr>
+						<th>Mã đơn</th>
+						<th>Số tiền</th>
+						<th>Ngân hàng</th>
+						<th>Tên tài khoản</th>
+						<th>Số tài khoản</th>
+						<th>Ngày tạo</th>
+						<th>Trạng thái</th>
+						<th>Ngày xử lý</th>
+
+					</tr>
+				</thead>
+<tbody>
+					<%
+						// Tạo đối tượng DAO cho yêu cầu rút tiền
+						DepositDAOImpl depositDao = new DepositDAOImpl(DBConnect.getConn());
+
+						// Lấy người dùng từ session
+						User receiver = (User) session.getAttribute("userobj");
+
+						// Lấy danh sách yêu cầu rút tiền của người dùng
+						List<Deposit> DepositRequests = depositDao.getDepositRequestsByUserId(receiver.getId());
+
+						// Kiểm tra danh sách yêu cầu rút tiền
+						if (DepositRequests != null && !DepositRequests.isEmpty()) {
+							for (Deposit deposit : DepositRequests) {
+								String statusColor = "black";
+								String statusText = deposit.getStatus();
+								if ("Approved".equalsIgnoreCase(statusText)) {
+
+									statusColor = "green"; // Đã duyệt - Màu xanh lá
+								} else if ("Rejected".equalsIgnoreCase(statusText)) {
+									statusColor = "red"; // Bị từ chối - Màu đỏ
+								} else if ("Pending".equalsIgnoreCase(statusText)) {
+									statusColor = "orange"; // Đang chờ - Màu cam
+								}
+					%>
+					<tr>
+						<td><%=deposit.getTransactionId()%></td>
+						<td><%=deposit.getFormattedAmount()%> VND</td>
+						<td><%=deposit.getPaymentMethod()%></td>
+						<td><%=deposit.getAccountName()%></td>
+						<td><%=deposit.getAccountNumber()%></td>
+						<td><%=deposit.getCreatedAt()%></td>
+						<td style="color: <%=statusColor%>;">
+							<%
+								if ("Approved".equalsIgnoreCase(statusText)) {
+											out.print("Đã duyệt");
+										} else if ("Rejected".equalsIgnoreCase(statusText)) {
+											out.print("Bị từ chối");
+										} else if ("Pending".equalsIgnoreCase(statusText)) {
+											out.print("Đang chờ");
+										} else {
+											out.print("Không xác định");
+										}
+							%>
+
+						</td>
+
+						<td><%=deposit.getApprovedAt() != null ? deposit.getApprovedAt() : "Chưa phê duyệt"%></td>
+					
+					</tr>
+					<%
+						}
+						} else {
+					%>
+					<tr>
+						<td colspan="8" style="text-align: center;">Chưa có yêu cầu
+							rút tiền nào.</td>
+					</tr>
+					<%
+						}
+					%>
+
+				</tbody>
             </table>
         </div>
     </div>
