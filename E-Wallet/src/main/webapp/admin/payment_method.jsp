@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.DB.DBConnect" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,7 @@
     <title>Danh Sách Phương Thức Thanh Toán</title>
     <style>
         h2 {
+        margin-top:100px;
             padding: 20px;
             font-size: 20px;
         }
@@ -75,7 +77,15 @@
 </div>
 
 <h2>Danh Sách Phương Thức Thanh Toán</h2>
-
+ <!-- Hiển thị thông báo -->
+    <c:if test="${not empty succMsg}">
+        <div class="message success">${succMsg}</div>
+        <c:remove var="succMsg" scope="session"/>
+    </c:if>
+    <c:if test="${not empty failMsg}">
+        <div class="message error">${failMsg}</div>
+        <c:remove var="failMsg" scope="session"/>
+    </c:if>
 <div class="history-table">
     <table>
         <thead>
@@ -83,14 +93,13 @@
                 <th>Số Tài Khoản</th>
                 <th>Tên Ngân Hàng</th>
                 <th>Tên Chủ Tài Khoản</th>
-                <th>Chỉnh Sửa</th>
-                <th>Xóa</th>
+                <th>Thao tác</th>
             </tr>
         </thead>
         <tbody>
             <% 
                 // Khai báo đối tượng PaymentMethodDAOImpl để truy xuất dữ liệu
-                PaymentMethodDAOimpl dao = new PaymentMethodDAOimpl();
+                PaymentMethodDAOimpl dao = new PaymentMethodDAOimpl(DBConnect.getConn());
                 
                 // Lấy danh sách phương thức thanh toán từ cơ sở dữ liệu
                 List<PaymentMethod> list = dao.getAllPaymentMethod(); 
@@ -99,17 +108,16 @@
                 for (PaymentMethod paymentMethod : list) {
             %>
                 <tr>
-                    <td><%= paymentMethod.getAccountnumber() %></td>
+                    <td><%= paymentMethod.getAccountNumber() %></td>
                     <td><%= paymentMethod.getName() %></td>
-                    <td><%= paymentMethod.getAccountname() %></td>
+                    <td><%= paymentMethod.getAccountName() %></td>
                     <!-- Nút Chỉnh Sửa -->
                     <td>
-                        <a href="edit_payment_method.jsp?accountnumber=<%= paymentMethod.getAccountnumber() %>" 
+                        <a href="edit_paymentMethod.jsp?account_number=<%= paymentMethod.getAccountNumber() %>" 
                            class="button btn-approve">Chỉnh Sửa</a>
-                    </td>
+
                     <!-- Nút Xóa -->
-                    <td>
-                        <a href="DeletePaymentMethodServlet?account_number=<%= paymentMethod.getAccountnumber() %>" 
+                        <a href="../deletePaymentMethod?accountNumber=<%= paymentMethod.getAccountNumber() %>" 
                            class="button btn-reject"
                            onclick="return confirm('Bạn có chắc chắn muốn xóa phương thức này không?');">Xóa</a>
                     </td>

@@ -116,6 +116,7 @@ h1 {
 	</div>
 
  <form action="../add_payment_method" method="POST">
+ <h1>Thêm cổng thanh toán</h1>
         <label for="account_number">Số Tài Khoản:</label>
         <input type="text" id="account_number" name="account_number" required>
         <br>
@@ -128,7 +129,7 @@ h1 {
         <input type="text" id="account_name" name="account_name" required>
         <br>
 
-        <button type="submit">Thêm Phương Thức</button>
+        <button type="submit">Thêm mới</button>
     </form>
 </body>
 </html>
