@@ -3,8 +3,10 @@ package com.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -127,6 +129,37 @@ public class TransactionDAOImpl implements TransactionDAO {
 		    }
 		    return stats;
 		}
+	
+	@Override
+	public Map<String, Double[]> getMonthlyCashFlowByUser(int userId) {
+	    Map<String, Double[]> cashFlow = new LinkedHashMap<>();
+	    try {
+	        String query = "SELECT DATE_FORMAT(transaction_date, '%Y-%m') AS month, "
+	                     + "SUM(CASE WHEN sender_id = ? THEN amount ELSE 0 END) AS outflow, "
+	                     + "SUM(CASE WHEN receiver_id = ? THEN amount ELSE 0 END) AS inflow "
+	                     + "FROM transactions "
+	                     + "GROUP BY DATE_FORMAT(transaction_date, '%Y-%m')";
+
+	        PreparedStatement ps = conn.prepareStatement(query);
+	        ps.setInt(1, userId);
+	        ps.setInt(2, userId);
+
+	        ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	            String month = rs.getString("month");
+	            Double outflow = rs.getDouble("outflow");
+	            Double inflow = rs.getDouble("inflow");
+	            cashFlow.put(month, new Double[]{inflow, outflow});
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return cashFlow;
+	}
+
+	
+	
+	
 	
 }
 
