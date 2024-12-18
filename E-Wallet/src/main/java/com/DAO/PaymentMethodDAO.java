@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PaymentMethodDAO {
-    void addPaymentMethod(PaymentMethod paymentMethod) throws SQLException;
+    boolean addPaymentMethod(PaymentMethod paymentMethod);
     List<PaymentMethod> getAllPaymentMethod();
-    boolean deletePaymentMethod(String account_number);
-
+    boolean deletePaymentMethod(String accountNumber);
+    PaymentMethod getPaymentMethod(String accountNumber);
 
 }
