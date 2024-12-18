@@ -115,30 +115,20 @@ h1 {
 		<%@include file="header.jsp"%>
 	</div>
 
-<form action="../add_paymentMethod" method="post">
-	<h1> Thêm cổng thanh toán</h1>
-	<c:if test="${not empty succMsg}">
-							<p style="color:green; text-align:center;font-weight: bold;">${succMsg}</p>
-							<c:remove var="succMsg" scope="session"/> <!-- xoa thong bao cu -->
-						</c:if>
-						
-						<c:if test="${not empty failMsg}">
-							<p style="color:red; text-align:center;font-weight: bold">${failMsg}</p>
-							<c:remove var="failMsg" scope="session"/> <!-- xoa thong bao cu -->
-						</c:if>
-						<div class="form-group">
-								<label>Tên ngân hàng</label> <input type="text" name="payment_method" required
-									class="form-control" >
-									</div>
-							<div class="form-group">
-								<label>Số tài khoản</label> <input type="text" name="account_number" required
-									class="form-control" >
-							</div>
-							<div class="form-group">
-								<label>Chủ tài khoản</label> <input type="text" name="account_name"
-									required class="form-control">
-							</div>
-							<button type="submit">Thêm mới</button>
-						</form>
+ <form action="../add_payment_method" method="POST">
+        <label for="account_number">Số Tài Khoản:</label>
+        <input type="text" id="account_number" name="account_number" required>
+        <br>
+
+        <label for="name">Tên Ngân hàng:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+
+        <label for="account_name">Tên Chủ Tài Khoản:</label>
+        <input type="text" id="account_name" name="account_name" required>
+        <br>
+
+        <button type="submit">Thêm Phương Thức</button>
+    </form>
 </body>
 </html>
