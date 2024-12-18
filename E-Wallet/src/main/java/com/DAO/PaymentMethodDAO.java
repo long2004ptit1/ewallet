@@ -8,4 +8,5 @@ public interface PaymentMethodDAO {
     void addPaymentMethod(PaymentMethod paymentMethod) throws SQLException;
     List<PaymentMethod> getAllPaymentMethod();
     boolean deletePaymentMethod(String account_number);
+
 }
