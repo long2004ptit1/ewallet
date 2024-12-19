@@ -7,8 +7,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<head>
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Đảm bảo rằng jQuery đã được tải -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script> <!-- Tải DataTables JS -->
+    <script>
+        $(document).ready(function() {
+            $('#admins').DataTable();  
+        });
+    </script>
+    <meta charset="UTF-8">
+    <title>Danh Sách Nhân Viên</title>
+</head>
+
 <style>h2 {
 	padding: 20px;
 	font-size:20px;
@@ -87,7 +98,6 @@
 }
 
 </style>
-</head>
 <body>
 <!-- Header placeholder -->
     <div class="header-space">
@@ -110,7 +120,7 @@
 					<th>Thao tác</th>
 				</tr>
 				</thead>
-				<tbody>
+				<table id="admins" class="display">
 				<tr>
 				       <%
 			AdminDAOImpl dao = new AdminDAOImpl();

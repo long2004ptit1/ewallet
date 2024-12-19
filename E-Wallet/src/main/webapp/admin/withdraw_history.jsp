@@ -9,8 +9,17 @@
 
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Đảm bảo rằng jQuery đã được tải -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script> <!-- Tải DataTables JS -->
+    <script>
+        $(document).ready(function() {
+            $('#withdraw').DataTable();  
+        });
+    </script>
+    <meta charset="UTF-8">
+    <title>Lịch sử rút tiền</title>
+</head>
 
 <style>
 h2 {
@@ -64,7 +73,7 @@ h2 {
 	<div class="history-table">
 
 		<h2>Lịch sử rút tiền</h2>
-		<table>
+		<table id="withdraw" class="display">
 			<thead>
 				<tr>
 					<th>Mã đơn</th>
