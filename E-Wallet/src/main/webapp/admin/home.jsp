@@ -120,7 +120,7 @@ canvas {
         <a href="user_list.jsp">DS khách hàng</a>
         <a href="deposit_requests.jsp">YC Nạp tiền</a>
         <a href="withdraw_requests.jsp">YC Rút tiền</a>
-        <a href="infor_user.jsp">Lịch sử giao dịch</a>
+        <a href="history.jsp">Lịch sử giao dịch</a>
     </nav>
 
     <c:if test="${not empty admin}">

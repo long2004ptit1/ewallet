@@ -116,7 +116,6 @@
 					<th>Mật khẩu</th>
 					<th>Số dư</th>
 					<th>Thời gian tạo</th>
-					<th>Thao tác</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -135,15 +134,19 @@
 			<td><%=user.getPassword()%></td>
 			<td><%= user.getFormattedBalance()+" VNĐ" %></td>
 			 <td><%= user.getCreatedAt() %></td>
-			<td><a href="" class="button btn-approve">Chỉnh sửa</a> <a
-				href="#" class="button btn-reject" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">Xóa</a></td>
+<!-- 			<td><a href="" class="button btn-approve">Chỉnh sửa</a> <a
+				href="#" class="button btn-reject" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">Xóa</a></td> -->
 
 
 		</tr>
 		<%
 			}
 		%>             
-					
+				<tr>
+            <td colspan="10" style="text-align: center;">
+                <a href="test.jsp" class="button btn-approve" style="font-size: 16px; padding: 10px 20px; text-decoration: none; display: inline-block;">Xem báo cáo người dùng</a>
+            </td>
+        </tr>	
 				</tbody>
 				<!-- Add history rows here -->
 			</table>

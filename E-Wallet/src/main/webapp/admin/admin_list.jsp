@@ -146,7 +146,11 @@
 		<%
 			}
 		%>             
-					
+			<tr>
+            <td colspan="10" style="text-align: center;">
+                <a href="register_admin.jsp" class="button btn-approve" style="font-size: 16px; padding: 10px 20px; text-decoration: none; display: inline-block;">Thêm nhân viên</a>
+            </td>
+        </tr>		
 				</tbody>
 				<!-- Add history rows here -->
 			</table>

@@ -7,6 +7,15 @@
 <html lang="en">
 
 <head>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Đảm bảo rằng jQuery đã được tải -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script> <!-- Tải DataTables JS -->
+    <script>
+        $(document).ready(function() {
+            $('#deposit').DataTable();
+        });
+    </script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Transfer Form</title>
@@ -87,7 +96,7 @@ h2 {
 
 		<div class="history-table">
 			<h2>Lịch sử rút tiền</h2>
-			<table>
+			<table id="deposit" class="display">
 				<thead>
 					<tr>
 						<th>Mã đơn</th>
