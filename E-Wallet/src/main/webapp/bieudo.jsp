@@ -199,31 +199,27 @@ body {
         }
 
         .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px;
-            justify-content: center;
-        }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    margin-top: 30px;
+}
 
-        .box {
-            width: 48%;
-            background: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-        }
+.box {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1;
+    max-width: 45%;
+}
 
-        .box h3 {
-            margin-bottom: 10px;
-            color: #333;
-        }
+.chart-container {
+    width: 100%;
+    height: 400px;
+}
 
-        .chart-container {
-            width: 100%;
-            height: 300px;
-        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -295,50 +291,76 @@ body {
 </div>
 
 <!-- Script Highcharts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
 <script>
+    // Khởi tạo mảng dữ liệu cho Highcharts
     const months = [];
     const inflowData = [];
     const outflowData = [];
 
-    <% if (cashFlow != null) { %>
-        <% for (Map.Entry<String, Double[]> entry : cashFlow.entrySet()) { %>
-            months.push('<%= entry.getKey() %>');
-            inflowData.push(<%= entry.getValue()[0] %>); // Dòng tiền vào
-            outflowData.push(<%= entry.getValue()[1] %>); // Dòng tiền ra
-        <% } %>
-    <% } %>
+    <% 
+    if (cashFlow != null && !cashFlow.isEmpty()) { 
+        for (Map.Entry<String, Double[]> entry : cashFlow.entrySet()) { 
+    %>
+        months.push('<%= entry.getKey() %>'); // Tháng
+        inflowData.push(<%= entry.getValue()[0] != null ? entry.getValue()[0] : 0 %>); // Dòng tiền vào
+        outflowData.push(<%= entry.getValue()[1] != null ? entry.getValue()[1] : 0 %>); // Dòng tiền ra
+    <% 
+        } 
+    } else { 
+    %>
+        console.warn("No data available for cash flow");
+    <% 
+    } 
+    %>
 
-    // Biểu Đồ Dòng Tiền
-    Highcharts.chart('chart1', {
-        chart: { type: 'column' },
-        title: { text: 'Dòng Tiền Vào và Ra Theo Tháng' },
-        xAxis: { categories: months, title: { text: 'Tháng' } },
-        yAxis: { title: { text: 'Số Tiền (VND)' } },
-        tooltip: {
-            shared: true,
-            headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '{series.name}: {point.y} VND<br/>Tổng: {point.stackTotal} VND'
-        },
-        plotOptions: { column: { stacking: 'normal' } },
-        series: [
-            { name: 'Dòng Tiền Vào', data: inflowData, color: '#2ecc71' },
-            { name: 'Dòng Tiền Ra', data: outflowData, color: '#e74c3c' }
-        ]
-    });
-
-    // Biểu Đồ Giả Định Khác
-    Highcharts.chart('chart2', {
-        chart: { type: 'line' },
-        title: { text: 'Biểu Đồ Tổng Dòng Tiền' },
-        xAxis: { categories: months },
-        yAxis: { title: { text: 'Số Tiền (VND)' } },
-        series: [{
-            name: 'Dòng Tiền Tổng',
-            data: inflowData.map((value, index) => value - outflowData[index] || 0),
-            color: '#3498db'
-        }]
-    });
+    console.log("Months:", months);
+    console.log("Inflow Data:", inflowData);
+    console.log("Outflow Data:", outflowData);
 </script>
+
+
+   <div id="chart1" class="chart-container"></div>
+
+<script>
+    // Nếu không có dữ liệu, hiện thông báo thay vì biểu đồ trống
+    if (months.length === 0) {
+        document.getElementById('chart1').innerHTML = "<p>Không có dữ liệu để hiển thị biểu đồ</p>";
+    } else {
+        Highcharts.chart('chart1', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Dòng Tiền Vào và Ra Theo Tháng'
+            },
+            xAxis: {
+                categories: months
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Số Tiền (VND)'
+                }
+            },
+            series: [
+                {
+                    name: 'Dòng Tiền Vào',
+                    data: inflowData,
+                    color: '#2ecc71'
+                },
+                {
+                    name: 'Dòng Tiền Ra',
+                    data: outflowData,
+                    color: '#e74c3c'
+                }
+            ]
+        });
+    }
+</script>
+
+
 
 </body>
 </html>
