@@ -116,7 +116,7 @@ h1 {
 	</div>
 
 <form action="../register_admin" method="post">
-	<h1> Đăng ký Admin</h1>
+	<h1> Thêm nhân viên</h1>
 	<c:if test="${not empty succMsg}">
 							<p style="color:green; text-align:center;font-weight: bold;">${succMsg}</p>
 							<c:remove var="succMsg" scope="session"/> <!-- xoa thong bao cu -->
@@ -160,7 +160,7 @@ h1 {
         </select><br><br>
 							</div>
 							
-							<button type="submit">Đăng ký</button>
+							<button type="submit">Thêm mới</button>
 						</form>
 </body>
 </html>

@@ -105,7 +105,7 @@
     </div>
 <div class="history-table">
 			<h2>Danh sách admin</h2>
-			<table>
+			<table id="admins" class="display">
 			<thead>
 				<tr>
 				<th>Id</th>
@@ -120,7 +120,7 @@
 					<th>Thao tác</th>
 				</tr>
 				</thead>
-				<table id="admins" class="display">
+				
 				<tr>
 				       <%
 			AdminDAOImpl dao = new AdminDAOImpl();
