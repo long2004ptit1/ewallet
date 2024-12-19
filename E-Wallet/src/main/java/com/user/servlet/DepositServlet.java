@@ -22,6 +22,9 @@ import com.entity.Deposit;
 @WebServlet("/deposit")
 public class DepositServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Thiết lập encoding cho request và response
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		// Lấy userId từ session
 		Integer userId = (Integer) session.getAttribute("user_id");
@@ -39,19 +42,12 @@ public class DepositServlet extends HttpServlet {
 		depositRequest.setAccountName(accountName);
 		
 		try (Connection conn = DBConnect.getConn()) { 
-            UserDAOImpl userDao = new UserDAOImpl(conn);
-            double currentBalance = userDao.getBalanceByUserId(userId);
 
 
                 DepositDAO depositDAO = new DepositDAOImpl(conn);
                 boolean success = depositDAO.addDepositRequest(depositRequest);
 
                 if (success) {
-                    double newBalance = currentBalance - amount;
-                    userDao.updateUserBalance(userId, newBalance);
-                    
-                    // Cập nhật số dư mới vào session
-                    session.setAttribute("user_balance", userDao.getBalanceByUserId(userId));
 
                     session.setAttribute("successMessage", "Yêu cầu nạp tiền thành công!");
                 } else {

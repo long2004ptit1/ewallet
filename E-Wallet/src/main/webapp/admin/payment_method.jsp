@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Danh Sách Phương Thức Thanh Toán</title>
+    <title>Danh Sách Cổng Thanh Toán</title>
     <style>
         h2 {
         margin-top:100px;
@@ -76,7 +76,7 @@
     <%@include file="header.jsp"%>
 </div>
 
-<h2>Danh Sách Phương Thức Thanh Toán</h2>
+<h2>Danh Sách Cổng Thanh Toán</h2>
  <!-- Hiển thị thông báo -->
     <c:if test="${not empty succMsg}">
         <div class="message success">${succMsg}</div>
@@ -130,7 +130,7 @@
 
     <!-- Nút Thêm Phương Thức -->
     <div style="margin-top: 20px; text-align: center;">
-        <a href="add_payment_method.jsp" class="button btn-approve">Thêm Phương Thức</a>
+        <a href="add_payment_method.jsp" class="button btn-approve">Thêm Mới</a>
     </div>
 </div>
 

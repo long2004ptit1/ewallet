@@ -1,6 +1,7 @@
 package com.admin.servlet;
 
 import com.DAO.WithdrawDAOImpl;
+import com.DAO.UserDAOImpl;
 import com.DAO.WithdrawDAO;
 import com.DB.DBConnect;
 import com.entity.Withdraw;
@@ -19,7 +20,7 @@ import java.sql.Timestamp;
 @WebServlet("/withdraw_requests")
 
 public class WithdrawRequestServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String transactionId = request.getParameter("transaction_id");
         String action = request.getParameter("action");
 
@@ -40,12 +41,24 @@ public class WithdrawRequestServlet extends HttpServlet {
                     session.setAttribute("successMessage", "Yêu cầu rút tiền đã được xác nhận!");
                     session.setAttribute("messageType", "success");
                 } else {
+                	
+                	WithdrawDAO withdrawDao = new WithdrawDAOImpl(conn); // Đối tượng WithdrawDAOImpl đã được tạo
+                	Withdraw withdraw = withdrawDao.getWithdrawById(transactionId); // Gọi phương thức qua đối tượng
+
+                     if (withdraw != null) {
+                         int userId = withdraw.getUserId();
+                         double amount = withdraw.getAmount();
+
+                         // Cộng lại tiền vào tài khoản người dùng
+                         UserDAOImpl userDao = new UserDAOImpl(conn);
+                         double currentBalance = userDao.getBalanceByUserId(userId);
+                         userDao.updateUserBalance(userId, currentBalance + amount);
+
                     session.setAttribute("errorMessage", "Yêu cầu rút tiền đã bị từ chối!");
                     session.setAttribute("messageType", "error");
                 }
 
-            } else {
-                request.getSession().setAttribute("errorMessage", "Có lỗi xảy ra khi cập nhật trạng thái.");
+            }
 
             }
         } catch (Exception e) {
