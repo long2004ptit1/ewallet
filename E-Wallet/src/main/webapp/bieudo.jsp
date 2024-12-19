@@ -315,18 +315,19 @@ body {
     } 
     %>
 
+    // Tính toán tổng dòng tiền (inflow - outflow)
+    const totalCashFlow = inflowData.map((inflow, index) => inflow - (outflowData[index] || 0));
+
     console.log("Months:", months);
     console.log("Inflow Data:", inflowData);
     console.log("Outflow Data:", outflowData);
+    console.log("Total Cash Flow:", totalCashFlow);
 </script>
 
-
-   <div id="chart1" class="chart-container"></div>
-
 <script>
-    // Nếu không có dữ liệu, hiện thông báo thay vì biểu đồ trống
+    // Biểu đồ Dòng Tiền Vào và Ra
     if (months.length === 0) {
-        document.getElementById('chart1').innerHTML = "<p>Không có dữ liệu để hiển thị biểu đồ</p>";
+        document.getElementById('chart1').innerHTML = "<p>Không có dữ liệu để hiển thị biểu đồ Dòng Tiền Vào và Ra</p>";
     } else {
         Highcharts.chart('chart1', {
             chart: {
@@ -354,6 +355,35 @@ body {
                     name: 'Dòng Tiền Ra',
                     data: outflowData,
                     color: '#e74c3c'
+                }
+            ]
+        });
+    }
+
+    // Biểu đồ Tổng Dòng Tiền
+    if (months.length === 0) {
+        document.getElementById('chart2').innerHTML = "<p>Không có dữ liệu để hiển thị biểu đồ Tổng Dòng Tiền</p>";
+    } else {
+        Highcharts.chart('chart2', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Tổng Dòng Tiền Theo Tháng'
+            },
+            xAxis: {
+                categories: months
+            },
+            yAxis: {
+                title: {
+                    text: 'Số Tiền (VND)'
+                }
+            },
+            series: [
+                {
+                    name: 'Tổng Dòng Tiền',
+                    data: totalCashFlow,
+                    color: '#3498db'
                 }
             ]
         });
