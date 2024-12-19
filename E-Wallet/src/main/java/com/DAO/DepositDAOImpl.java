@@ -140,4 +140,37 @@ public class DepositDAOImpl implements DepositDAO {
         }
         return requests;
     }
+    
+    @Override
+    public Deposit getDepositRequestByTransactionId(String transactionId) {
+    	Deposit deposit=null;
+        String sql = "SELECT d.*, pm.name AS payment_method, u.username " +
+                     "FROM deposit d " +
+                     "LEFT JOIN payment_methods pm ON d.account_number = pm.account_number " +
+                     "JOIN user u ON d.user_id = u.id " +
+                     "WHERE d.transaction_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, transactionId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    deposit = new Deposit();
+                    deposit.setTransactionId(rs.getString("transaction_id"));
+                    deposit.setUserId(rs.getInt("user_id"));
+                    deposit.setUserName(rs.getString("username"));
+                    deposit.setAmount(rs.getDouble("amount"));
+                    deposit.setPaymentMethod(rs.getString("payment_method"));
+                    deposit.setAccountNumber(rs.getString("account_number"));
+                    deposit.setAccountName(rs.getString("account_name"));
+                    deposit.setStatus(rs.getString("status"));
+                    deposit.setCreatedAt(rs.getTimestamp("created_at"));
+                    deposit.setApprovedAt(rs.getTimestamp("approved_at"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return deposit;
+    }
+
+    
 }

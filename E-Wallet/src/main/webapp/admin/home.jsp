@@ -103,22 +103,20 @@ canvas {
         <a href="user_list.jsp">DS khách hàng</a>
         <a href="deposit_requests.jsp">YC Nạp tiền</a>
         <a href="withdraw_requests.jsp">YC Rút tiền</a>
-        <a href="support.jsp">Hỗ trợ KH</a>
-        <a href="infor_user.jsp">Lịch sử</a>
+        <a href="infor_user.jsp">Lịch sử giao dịch</a>
     </nav>
 
-    <c:if test="${not empty userobj}">
+    <c:if test="${not empty admin}">
         <div class="user-info">
             <div id="user-icon" class="fas fa-user"></div>
             <div class="user-details">
-                <span class="name">${userobj.name}</span>
-                <span class="balance">Số dư: ${userobj.formattedBalance} Đ</span>
+                <span class="name">ADMIN</span>
             </div>
         </div>
         <a href="${pageContext.request.contextPath}/logout" class="logout">Đăng xuất</a>
     </c:if>
 
-    <c:if test="${empty userobj}">
+    <c:if test="${empty admin}">
         <div class="icons">
             <div id="search-btn" class="fas fa-search"></div>
             <div id="login-btn" class="fas fa-user"></div>

@@ -177,7 +177,48 @@ font-size:20px;
     transform: scale(0.95); /* Thu nhỏ nhẹ khi nhấn vào */
 }
 
-    
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown button styling */
+.dropbtn {
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Dropdown content */
+.dropdown-content {
+    display: none; /* Ẩn menu con */
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Dropdown items */
+.dropdown-content a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+    display: block; /* Hiện menu con */
+}
+
+/* Hover effect for items */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}    
     </style>
 
 </head>
@@ -194,7 +235,14 @@ font-size:20px;
         <a href="transfer.jsp">Chuyển tiền</a>
         <a href="withdraw.jsp">Rút tiền</a>
         <a href="deposit.jsp">Nạp tiền</a>
-        <a href="history.jsp">Lịch sử giao dịch</a>
+        <div class="dropdown">
+        <a href="history.jsp" class="dropbtn">Lịch sử giao dịch</a>
+        <div class="dropdown-content">
+            <a href="transfer_history.jsp">Chuyển khoản</a>
+            <a href="withdraw_history.jsp">Rút tiền</a>
+            <a href="deposit_history.jsp">Nạp tiền</a>
+        </div>
+    </div>
         <a href="infor_user.jsp">Thông tin cá nhân</a>
     </nav>
 

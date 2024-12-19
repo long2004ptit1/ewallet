@@ -101,18 +101,18 @@
         <a href="user_list.jsp">DS khách hàng</a>
         <a href="deposit_requests.jsp">YC Nạp tiền</a>
         <a href="withdraw_requests.jsp">YC Rút tiền</a>
-        <a href="infor_user.jsp">Lịch sử</a>
+        <a href="infor_user.jsp">Lịch sử giao dịch</a>
     </nav>
 
     <!-- Kiểm tra và hiển thị thông tin người dùng đã đăng nhập -->
-    <c:if test="${not empty userobj}">
+    <c:if test="${not empty admin}">
         <div class="user-info">
             <!-- Icon user -->
             <div id="user-icon" class="fas fa-user"></div>
             <!-- Hiển thị họ tên và số dư -->
             <div class="user-details">
-                <span class="name">${userobj.name}</span>
-                <span class="balance">Số dư: ${userobj.formattedBalance} Đ</span>
+                <span class="name">ADMIN</span>
+
             </div>
 			
         </div>	
@@ -120,9 +120,9 @@
     </c:if>
 
     <!-- Nếu chưa đăng nhập, hiển thị biểu tượng đăng nhập -->
-    <c:if test="${empty userobj}">
-        <div id="login-btn" class="fas fa-user"></div>
-    </c:if>
+<c:if test="${ empty admin}">
+	<c:redirect url="../index.jsp"/>
+</c:if>
 
 
 </header>

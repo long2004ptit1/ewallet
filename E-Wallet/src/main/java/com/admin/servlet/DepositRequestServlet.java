@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import com.DAO.DepositDAO;
 import com.DAO.DepositDAOImpl;
+import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
+import com.entity.Deposit;
 
 @WebServlet("/deposit_requests")
 public class DepositRequestServlet extends HttpServlet {
@@ -35,8 +37,20 @@ public class DepositRequestServlet extends HttpServlet {
             boolean success = dao.updateRequestStatus(transactionId, newStatus,approvedAt); 
             if (success) {
                 if ("Approved".equals(newStatus)) {
-                    session.setAttribute("successMessage", "Yêu cầu rút tiền đã được xác nhận!");
-                    session.setAttribute("messageType", "success");
+                	DepositDAO depositDao = new DepositDAOImpl(conn);
+                	 Deposit deposit = depositDao.getDepositRequestByTransactionId(transactionId);
+                     if (deposit!=null) {
+                    	 int userId = deposit.getUserId();
+                         double amount = deposit.getAmount();
+
+                         UserDAOImpl userDAO = new UserDAOImpl(conn);
+                         double currentBalance = userDAO.getBalanceByUserId(userId);
+                         userDAO.updateUserBalance(userId, currentBalance + amount);
+
+                        session.setAttribute("successMessage", "Yêu cầu rút tiền đã được xác nhận!");
+                        session.setAttribute("messageType", "success");
+						
+					}
                 } else {
                     session.setAttribute("errorMessage", "Yêu cầu rút tiền đã bị từ chối!");
                     session.setAttribute("messageType", "error");

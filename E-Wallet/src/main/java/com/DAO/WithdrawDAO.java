@@ -11,5 +11,6 @@ public interface WithdrawDAO {
     List<Withdraw> getAllRequests();
     boolean updateRequestStatus(String transactionId, String newStatus, Timestamp approvedAt);
 	List<Withdraw> getWithdrawRequestsByUserId(int userId);
+	Withdraw getWithdrawById(String transactionId);
 
 }

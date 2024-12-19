@@ -11,4 +11,5 @@ public interface DepositDAO {
     List<Deposit> getAllRequests();
     boolean updateRequestStatus(String transactionId, String newStatus, Timestamp approvedAt);
     List<Deposit> getDepositRequestsByUserId(int userId);
+	Deposit getDepositRequestByTransactionId(String transactionId);
 }

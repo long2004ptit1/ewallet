@@ -4,6 +4,7 @@ import com.DAO.WithdrawDAOImpl;
 import com.DB.DBConnect;
 import com.DAO.UserDAOImpl;
 import com.DAO.WithdrawDAO;
+import com.entity.User;
 import com.entity.Withdraw;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +29,9 @@ public class WithdrawServlet extends HttpServlet {
 		        response.sendRedirect("index.jsp");
 		        return;
 		    }
+		 // Thiết lập encoding cho request và response
+	        request.setCharacterEncoding("UTF-8");
+	        response.setCharacterEncoding("UTF-8");
 	        double amount = Double.parseDouble(request.getParameter("amount"));
 	        String paymentMethod = request.getParameter("payment_method");
 	        String accountNumber = request.getParameter("account_number");
@@ -53,8 +57,16 @@ public class WithdrawServlet extends HttpServlet {
 	                    double newBalance = currentBalance - amount;
 	                    userDao.updateUserBalance(userId, newBalance);
 	                    
-	                    // Cập nhật số dư mới vào session
-	                    session.setAttribute("user_balance", userDao.getBalanceByUserId(userId));
+	                    session.setAttribute("user_balance", newBalance);
+	                    
+	                    User userobj = (User) session.getAttribute("userobj");
+	                    if (userobj != null) {
+	                        userobj.setBalance(newBalance); // Cập nhật số dư
+	                        session.setAttribute("userobj", userobj); // Lưu lại userobj vào session
+	                    }
+
+	                    // Gửi số dư cập nhật tới giao diện
+	                    request.setAttribute("new_balance", newBalance);
 
 	                    session.setAttribute("successMessage", "Yêu cầu rút tiền thành công!");
 	                } else {
