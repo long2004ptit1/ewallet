@@ -152,7 +152,7 @@
         <a href="withdraw.jsp">Rút tiền</a>
         <a href="deposit.jsp">Nạp tiền</a>
         <div class="dropdown">
-        <a href="history.jsp" class="dropbtn">Lịch sử giao dịch</a>
+        <a href="transfer_history.jsp" class="dropbtn">Lịch sử giao dịch</a>
         <div class="dropdown-content">
             <a href="transfer_history.jsp">Chuyển tiền</a>
             <a href="transfer2_history.jsp">Nhận tiền</a>
