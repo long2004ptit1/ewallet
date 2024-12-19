@@ -114,41 +114,39 @@ public class TransactionDAOImpl implements TransactionDAO {
 	    return transactions;
 	}
 	
-	@Override
-	public Map<String, Integer> getTransactionStatsByDate() {
-		    Map<String, Integer> stats = new TreeMap<>(); // TreeMap để sắp xếp theo ngày
-		    String sql = "SELECT DATE(transaction_date) AS date, COUNT(*) AS total FROM transactions GROUP BY DATE(transaction_date)";
-
-		    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-		        ResultSet rs = ps.executeQuery();
-		        while (rs.next()) {
-		            stats.put(rs.getString("date"), rs.getInt("total"));
-		        }
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		    return stats;
-		}
 	
+
 	@Override
 	public Map<String, Double[]> getMonthlyCashFlowByUser(int userId) {
 	    Map<String, Double[]> cashFlow = new LinkedHashMap<>();
-	    try {
-	        String query = "SELECT DATE_FORMAT(transaction_date, '%Y-%m') AS month, "
-	                     + "SUM(CASE WHEN sender_id = ? THEN amount ELSE 0 END) AS outflow, "
-	                     + "SUM(CASE WHEN receiver_id = ? THEN amount ELSE 0 END) AS inflow "
-	                     + "FROM transactions "
-	                     + "GROUP BY DATE_FORMAT(transaction_date, '%Y-%m')";
+	    String query = "SELECT DATE_FORMAT(created_at, '%Y-%m') AS month, "
+	                 + "SUM(CASE WHEN type = 'inflow' THEN amount ELSE 0 END) AS inflow, "
+	                 + "SUM(CASE WHEN type = 'outflow' THEN amount ELSE 0 END) AS outflow "
+	                 + "FROM ( "
+	                 + "  SELECT transaction_date AS created_at, amount, 'outflow' AS type "
+	                 + "  FROM transactions WHERE sender_id = ? "
+	                 + "  UNION ALL "
+	                 + "  SELECT transaction_date AS created_at, amount, 'inflow' AS type "
+	                 + "  FROM transactions WHERE receiver_id = ? "
+	                 + "  UNION ALL "
+	                 + "  SELECT created_at, amount, 'inflow' AS type FROM deposit WHERE user_id = ? "
+	                 + "  UNION ALL "
+	                 + "  SELECT created_at, amount, 'outflow' AS type FROM withdraw WHERE user_id = ? "
+	                 + ") AS combined "
+	                 + "GROUP BY DATE_FORMAT(created_at, '%Y-%m') "
+	                 + "ORDER BY month";
 
-	        PreparedStatement ps = conn.prepareStatement(query);
-	        ps.setInt(1, userId);
-	        ps.setInt(2, userId);
-
+	    try (PreparedStatement ps = conn.prepareStatement(query)) {
+	        ps.setInt(1, userId); // Sender in transactions
+	        ps.setInt(2, userId); // Receiver in transactions
+	        ps.setInt(3, userId); // Deposit user
+	        ps.setInt(4, userId); // Withdraw user
 	        ResultSet rs = ps.executeQuery();
+
 	        while (rs.next()) {
 	            String month = rs.getString("month");
-	            Double outflow = rs.getDouble("outflow");
 	            Double inflow = rs.getDouble("inflow");
+	            Double outflow = rs.getDouble("outflow");
 	            cashFlow.put(month, new Double[]{inflow, outflow});
 	        }
 	    } catch (SQLException e) {
@@ -157,10 +155,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 	    return cashFlow;
 	}
 
-	
-	
-	
-	
+
 }
 
 

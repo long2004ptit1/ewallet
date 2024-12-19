@@ -81,12 +81,29 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: left ;
-    margin-top: 50px;
+    margin-top: 150px;
 }
 
 canvas {
     margin: 0 auto;
 }
+
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.chart {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 
     </style>
 </head>
@@ -149,33 +166,83 @@ canvas {
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
 <!-- Thẻ chứa biểu đồ -->
-<div id="container" style="width:100%; height:400px;"></div>
 
+    <div class="chart" id="transactions-chart" style="width: 40%; height: 400px;"></div>
+  
+
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-	fetch('${pageContext.request.contextPath}/TransactionTimeStats')
-
+    fetch('${pageContext.request.contextPath}/TransactionTypeStats')
         .then(response => response.json())
         .then(data => {
-            console.log("Dữ liệu từ Servlet:", data); // Kiểm tra dữ liệu nhận được
+            // Hợp nhất và sắp xếp các tháng từ tất cả các loại giao dịch
+            const months = Array.from(new Set([
+                ...Object.keys(data.transactions),
+                ...Object.keys(data.deposit),
+                ...Object.keys(data.withdraw)
+            ])).sort();
 
-            // Chuyển dữ liệu thành dạng cho Highcharts
-            const dates = Object.keys(data);
-            const counts = Object.values(data);
+            // Chuẩn hóa dữ liệu để đảm bảo mọi tháng đều có giá trị
+            const transactionData = months.map(month => data.transactions[month] || 0);
+            const depositData = months.map(month => data.deposit[month] || 0);
+            const withdrawData = months.map(month => data.withdraw[month] || 0);
 
             // Hiển thị biểu đồ
-            Highcharts.chart('container', {
-                title: { text: 'Thống kê số lượng giao dịch theo thời gian', align: 'left' },
-                yAxis: { title: { text: 'Số lượng giao dịch' } },
-                xAxis: { categories: dates, title: { text: 'Ngày' } },
-                series: [{
-                    name: 'Số lượng giao dịch',
-                    data: counts
-                }]
+            Highcharts.chart('transactions-chart', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Số lượng giao dịch theo loại',
+                    align: 'left'
+                },
+                xAxis: {
+                    categories: months,
+                    title: { text: 'Tháng' }
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    min: 0,
+                    title: {
+                        text: 'Số lượng giao dịch'
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.key + '</b><br/>' +
+                            this.series.name + ': ' + this.y + '<br/>' +
+                            'Tổng cộng: ' + this.point.stackTotal;
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal'
+                    }
+                },
+                series: [
+                    {
+                        name: 'Transaction',
+                        data: transactionData,
+                        stack: 'Transaction'
+                    },
+                    {
+                        name: 'Deposit',
+                        data: depositData,
+                        stack: 'Transaction'
+                    },
+                    {
+                        name: 'Withdraw',
+                        data: withdrawData,
+                        stack: 'Transaction'
+                    }
+                ]
             });
         })
         .catch(error => {
-            console.error("Lỗi khi gọi Servlet:", error);
+            console.error('Lỗi khi tải dữ liệu:', error);
         });
 });
 </script>

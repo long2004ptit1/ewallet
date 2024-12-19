@@ -10,6 +10,6 @@ public interface TransactionDAO {
 	 List<Transaction> getTransactionHistory(int userId);
 	List<Transaction> getReceivedTransactions(int userId);
 	
-	 Map<String, Integer> getTransactionStatsByDate();
+	
 	 public Map<String, Double[]> getMonthlyCashFlowByUser(int userId);
 }
