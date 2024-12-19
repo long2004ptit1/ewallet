@@ -166,7 +166,15 @@ button {
 <%
     }
 %>
+<tr>
+            <td colspan="10" style="text-align: center;">
+                <a href="withdraw_history.jsp" class="button btn-approve" style="font-size: 16px; padding: 10px 20px; text-decoration: none; display: inline-block;">Xem lịch sử</a>
+            </td>
+        </tr>
 </tbody>
+
+
+
 
 				<!-- Add history rows here -->
 			</table>

@@ -179,9 +179,9 @@ font-size:20px;
 
         <div class="slide active">
             <div class="content">
-                <span>fresh and organic</span>
-                <h3>upto 50% off</h3>
-                <a href="#" class="btn">shop now</a>
+                <span>Giao dịch an toàn</span>
+                <h3>Không mất phí</h3>
+                <a href="register.jsp" class="btn">Đăng ký ngay</a>
             </div>
             <div class="image">
 
@@ -213,7 +213,7 @@ font-size:20px;
 
 <!-- footer section starts  -->
 
-<section class="footer">
+<!-- <section class="footer">
 
     <div class="box-container">
 
@@ -255,11 +255,11 @@ font-size:20px;
             <img src="image/payment.png" class="payment" alt="">
         </div>
 
-    </div>
+    </div> -->
 
 </section>
 
-<section class="credit">created by mr. web designer | all rights reserved!</section>
+<section class="credit">created by D22Fintech | all rights reserved!</section>
 
 <!-- footer section ends -->
 

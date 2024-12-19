@@ -115,6 +115,37 @@ public class TransactionDAOImpl implements TransactionDAO {
 	}
 	
 	
+	@Override
+	public List<Transaction> getAllTransactions() {
+	    List<Transaction> transactions = new ArrayList<>();
+	    String query = "SELECT t.transaction_id, t.amount, " +
+	                   "       sender.username AS sender_username, " +
+	                   "       receiver.username AS receiver_username, " +
+	                   "       t.transaction_date, t.message " +
+	                   "FROM transactions t " +
+	                   "LEFT JOIN user sender ON t.sender_id = sender.id " +
+	                   "LEFT JOIN user receiver ON t.receiver_id = receiver.id " +
+	                   "ORDER BY t.transaction_date DESC";
+
+	    try (PreparedStatement ps = conn.prepareStatement(query)) {
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            Transaction transaction = new Transaction();
+	            transaction.setTransactionId(rs.getString("transaction_id"));
+	            transaction.setAmount(rs.getDouble("amount"));
+	            transaction.setSenderUserName(rs.getString("sender_username"));
+	            transaction.setReceiverUsername(rs.getString("receiver_username"));
+	            transaction.setTransactionDate(rs.getTimestamp("transaction_date"));
+	            transaction.setMessage(rs.getString("message"));
+
+	            transactions.add(transaction);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return transactions;
+	}
 
 	@Override
 	public Map<String, Double[]> getMonthlyCashFlowByUser(int userId) {

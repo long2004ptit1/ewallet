@@ -4,16 +4,17 @@
 <%@page import="java.util.List"%>
 <%@page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.TransactionDAOImpl"%>
-<%@page import="com.entity.User"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page isELIgnored="false"%>
+<%@page import="com.entity.User"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lịch sử nhận tiền</title>
+<title>Transfer Form</title>
+
 <style>
 @import
 	url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap")
@@ -24,7 +25,13 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	outline: none;
+	border: none;
+	text-decoration: none;
+	text-transform: capitalize;
+	transition: .2s linear;
 }
+
 /* Add space for header */
 .header-space {
 	height: 80px;
@@ -36,90 +43,61 @@
 	margin-bottom: 20px;
 }
 
-body {
-	background-color: #f9f9f9;
-	color: #333;
-	line-height: 1.6;
-}
-
 .container {
-	width: 100%;
-	margin: 20px auto;
-	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	border-radius: 5px;
+	width: 80%;
+	margin: 0 auto;
 }
 
-h1 {
-	text-align: center;
-	margin-bottom: 20px;
-	color: #4CAF50;
+
+/* Cỡ chữ cho bảng lịch sử chuyển tiền */
+h2 {
+	padding: 20px;
+}
+
+.history-table {
+	margin-top: 20px;
 }
 
 .history-table table {
 	width: 100%;
 	border-collapse: collapse;
-	margin-top: 20px;
+}
+
+.history-table table, .history-table th, .history-table td {
+	border: 1px solid #ddd;
 }
 
 .history-table th, .history-table td {
-	border: 1px solid #ddd;
 	padding: 10px;
 	text-align: left;
+	font-size: 16px;
 }
 
 .history-table th {
-	background-color: #4CAF50;
-	color: white;
-}
-
-.history-table td {
-	background-color: #f9f9f9;
-}
-
-.navigation {
-	margin-bottom: 20px;
-	text-align: center;
-}
-
-.navigation a {
-	text-decoration: none;
-	color: #4CAF50;
-	font-weight: bold;
-	margin: 0 10px;
-}
-
-.navigation a:hover {
-	text-decoration: underline;
+	background-color: #f2f2f2;
 }
 </style>
 </head>
 
 <body>
 
+	<!-- Header placeholder -->
 	<div class="header-space">
 		<%@include file="all_component/header.jsp"%>
 	</div>
 
 	<div class="container">
-		<h1>Lịch sử nhận tiền</h1>
 
-		<!-- Điều hướng giữa lịch sử chuyển tiền và nhận tiền -->
-		<div class="navigation">
-			<a href="history-transfer.jsp">Lịch sử chuyển tiền</a> | <a
-				href="history-received.jsp">Lịch sử nhận tiền</a>
-		</div>
 
-		<!-- Bảng lịch sử nhận tiền -->
 		<div class="history-table">
+			<h2>Lịch sử nhận tiền</h2>
 			<table>
 				<thead>
 					<tr>
 						<th>Mã giao dịch</th>
 						<th>Số tiền</th>
-						<th>Người gửi</th>
-						<th>Tên người gửi</th>
+						<th>Tài khoản nhận</th>
+						<th>Tên người nhận</th>
 						<th>Thời gian</th>
 						<th>Trạng thái</th>
 						<th>Nội dung</th>
@@ -163,9 +141,12 @@ h1 {
 					}
 					%>
 				</tbody>
+
+
 			</table>
 		</div>
 	</div>
+
 </body>
 
 </html>

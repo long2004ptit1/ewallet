@@ -12,4 +12,5 @@ public interface TransactionDAO {
 	
 	
 	 public Map<String, Double[]> getMonthlyCashFlowByUser(int userId);
+	List<Transaction> getAllTransactions();
 }

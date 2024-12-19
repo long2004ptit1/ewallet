@@ -128,7 +128,7 @@ table th {
 		<table>
 			<thead>
 				<tr>
-					<th>Mã đơn</th>
+					<th>Mã giao dịch</th>
 					<th>Trước GD</th>
 					<th>Số tiền</th>
 					<th>Sau GD</th>

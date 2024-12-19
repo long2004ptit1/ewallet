@@ -238,7 +238,8 @@ font-size:20px;
         <div class="dropdown">
         <a href="history.jsp" class="dropbtn">Lịch sử giao dịch</a>
         <div class="dropdown-content">
-            <a href="transfer_history.jsp">Chuyển khoản</a>
+            <a href="transfer_history.jsp">Chuyển tiền</a>
+            <a href="transfer2_history.jsp">Nhận tiền</a>
             <a href="withdraw_history.jsp">Rút tiền</a>
             <a href="deposit_history.jsp">Nạp tiền</a>
         </div>
@@ -259,7 +260,6 @@ font-size:20px;
                 <span class="balance">Số dư: ${userobj.formattedBalance} Đ</span>
             </div>
         </div>
-        <span class="notification-icon fas fa-bell"></span>
  <a href="logout" class="logout"">Đăng xuất</a> 
     </c:if>
 
@@ -306,9 +306,9 @@ font-size:20px;
 
         <div class="slide active">
             <div class="content">
-                <span>fresh and organic</span>
-                <h3>upto 50% off</h3>
-                <a href="#" class="btn">shop now</a>
+                <span>Thống kê giao dịch</span>
+                <h3>Biểu đồ chi tiêu</h3>
+                <a href="bieudo.jsp" class="btn">Xem ngay</a>
             </div>
             <div class="image">
 
@@ -335,7 +335,7 @@ font-size:20px;
 
 <!-- footer section starts  -->
 
-<section class="footer">
+<!-- <section class="footer">
 
     <div class="box-container">
 
@@ -379,9 +379,9 @@ font-size:20px;
 
     </div>
 
-</section>
+</section> -->
 
-<section class="credit">created by mr. web designer | all rights reserved!</section>
+<section class="credit">created by D22Fintech | all rights reserved!</section>
 
 <!-- footer section ends -->
 
